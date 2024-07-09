@@ -1,0 +1,247 @@
+[gd_scene load_steps=20 format=3 uid="uid://duc1c18y8ooso"]
+
+[ext_resource type="Texture2D" uid="uid://cq7ttglewicmc" path="res://grass.png" id="3_kejuy"]
+[ext_resource type="Material" uid="uid://67ujeeqcjmgj" path="res://trunk_mat.tres" id="3_vb27k"]
+[ext_resource type="Material" uid="uid://7hn25igvds42" path="res://twig_mat.tres" id="4_ml0j2"]
+[ext_resource type="Texture2D" uid="uid://cp2up1qk6h7fe" path="res://Branches1.png" id="5_siv04"]
+[ext_resource type="Texture2D" uid="uid://b5b3lgohgo3pm" path="res://Branches2.png" id="6_6tr7v"]
+[ext_resource type="Texture2D" uid="uid://cbsamky53m0ud" path="res://Branches3.png" id="7_76wn7"]
+
+[sub_resource type="GDScript" id="GDScript_83sgd"]
+script/source = "extends DirectionalLight3D
+
+
+func _process(delta):
+	#rotate_x(0.01*delta)
+	rotate_y(0.1*delta)
+	pass
+"
+
+[sub_resource type="BoxMesh" id="BoxMesh_diq37"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wu3s1"]
+disable_ambient_light = true
+albedo_texture = ExtResource("3_kejuy")
+uv1_scale = Vector3(24, 24, 24)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7v4ki"]
+transparency = 4
+albedo_texture = ExtResource("5_siv04")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jcgol"]
+transparency = 2
+alpha_scissor_threshold = 0.612
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("5_siv04")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4uu2h"]
+transparency = 2
+alpha_scissor_threshold = 0.624
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("6_6tr7v")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6nnmw"]
+transparency = 4
+cull_mode = 2
+albedo_color = Color(0.908971, 0.60999, 0.260339, 1)
+albedo_texture = ExtResource("7_76wn7")
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_yr4ns"]
+sky_top_color = Color(0.56151, 0.757146, 0.893882, 1)
+sky_horizon_color = Color(0.627864, 0.640487, 0.802648, 1)
+
+[sub_resource type="Sky" id="Sky_2h3fg"]
+sky_material = SubResource("ProceduralSkyMaterial_yr4ns")
+
+[sub_resource type="Environment" id="Environment_21r7m"]
+background_mode = 2
+background_color = Color(0.890898, 0.94296, 0.984187, 1)
+sky = SubResource("Sky_2h3fg")
+ambient_light_source = 3
+reflected_light_source = 2
+ssao_enabled = true
+ssao_intensity = 12.27
+ssil_intensity = 16.0
+sdfgi_enabled = true
+sdfgi_use_occlusion = true
+fog_light_color = Color(0.493681, 0.539508, 0.727224, 1)
+adjustment_enabled = true
+adjustment_brightness = 1.51
+adjustment_contrast = 1.25
+adjustment_saturation = 1.34
+
+[sub_resource type="Animation" id="Animation_8klym"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-23.8825, 7.68107, -2.56408)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-1.56564, -0.189442, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_r5u4t"]
+resource_name = "cam_anim"
+length = 26.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2, 5, 7, 9, 11, 13, 16, 19, 21, 23),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-23.8825, 7.68107, -2.56408), Vector3(-23.4581, 8.64647, 1.97486), Vector3(-21.8208, 0.849571, 1.53062), Vector3(-16.4756, 2.23673, 0.503517), Vector3(-13.4412, 1.89398, -0.378609), Vector3(-3.90545, 7.14042, 2.25164), Vector3(-5.13333, 4.90552, 1.41628), Vector3(2.86886, 17.4773, -2.05905), Vector3(8.25549, 4.62327, 4.40702), Vector3(22.051, 1.4183, 11.028), Vector3(-0.893097, 26.5635, 23.309)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2, 5, 7, 9, 11, 13, 16, 19, 21, 23),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-1.56564, -0.189442, 0), Vector3(-0.426809, -0.00182373, 0), Vector3(0.738198, 0.486872, 0), Vector3(0.480762, 0.604687, 0), Vector3(-0.21737, -0.499233, 0), Vector3(-0.328046, 0.382158, 0), Vector3(0.34827, 0.0592644, 0), Vector3(-1.5708, -0.0890968, 0), Vector3(0.227688, 0.713755, 0), Vector3(0.74256, 0.351602, 0), Vector3(-0.16501, -0.647588, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_onr1l"]
+_data = {
+"RESET": SubResource("Animation_8klym"),
+"cam_anim": SubResource("Animation_r5u4t")
+}
+
+[node name="Demo" type="Node"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.551853, 0.833343, 0.0315978, -0.588053, 0.361993, 0.723294, 0.591314, -0.417733, 0.689817, 0, 3.76065, 7.80258)
+shadow_enabled = true
+shadow_transmittance_bias = 11.686
+shadow_opacity = 0.86
+script = SubResource("GDScript_83sgd")
+
+[node name="grass" type="MeshInstance3D" parent="."]
+transform = Transform3D(142.255, 0, 0, 0, 1, 0, 0, 0, 149.965, 0, -0.0758239, 0)
+mesh = SubResource("BoxMesh_diq37")
+surface_material_override/0 = SubResource("StandardMaterial3D_wu3s1")
+
+[node name="Tree3D" type="Tree3D" parent="."]
+seed = 696
+trunk_height = 9
+trunk_branch_length = 0.79
+trunk_max_radius = 0.22
+trunk_length = 3.21
+twig_scale = 0.55
+material_trunk = ExtResource("3_vb27k")
+material_twig = ExtResource("4_ml0j2")
+transform = Transform3D(-0.0480653, 0, 0.998844, 0, 1, 0, -0.998844, 0, -0.0480653, -24.1285, 0.398237, -2.06323)
+
+[node name="Tree3D2" type="Tree3D" parent="."]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 9
+trunk_branch_length = 0.59
+trunk_branch_length_falloff = 0.57
+trunk_drop_amount = 0.4
+trunk_max_radius = 0.05
+trunk_radius_falloff_rate = 0.7
+trunk_twist = 2.62
+trunk_length = 1.79
+twig_scale = 0.4
+material_trunk = ExtResource("3_vb27k")
+material_twig = SubResource("StandardMaterial3D_7v4ki")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.4059, 0, -1.6484)
+
+[node name="Tree3D3" type="Tree3D" parent="."]
+seed = 264
+trunk_branches_count = 3
+trunk_height = 0
+trunk_branch_length = 0.19
+trunk_drop_amount = 0.2
+trunk_max_radius = 0.04
+trunk_radius_falloff_rate = 0.58
+trunk_twist = 5.0
+trunk_length = 0.38
+twig_scale = 0.65
+material_trunk = ExtResource("3_vb27k")
+material_twig = ExtResource("4_ml0j2")
+transform = Transform3D(-0.125922, 0, -0.99204, 0, 1, 0, 0.99204, 0, -0.125922, -12.7613, 0.344063, -1.85098)
+
+[node name="Tree3D4" type="Tree3D" parent="."]
+trunk_branches_count = 7
+trunk_branch_length = 0.59
+trunk_branch_length_falloff = 0.95
+trunk_drop_amount = -0.3
+trunk_grow_amount = 0.03
+trunk_max_radius = 0.18
+trunk_radius_falloff_rate = 0.61
+trunk_climb_rate = 0.2
+trunk_kink = -0.37
+trunk_twist = 1.41
+trunk_length = 7.05
+twig_scale = 0.65
+material_trunk = ExtResource("3_vb27k")
+material_twig = SubResource("StandardMaterial3D_jcgol")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.48727, 0, -1.73671)
+
+[node name="Tree3D5" type="Tree3D" parent="."]
+trunk_height = 30
+trunk_drop_amount = 0.0
+trunk_max_radius = 0.2
+trunk_climb_rate = 0.3
+trunk_kink = 0.01
+trunk_twist = -2.47
+trunk_length = 3.61
+twig_scale = 1.0
+material_trunk = ExtResource("3_vb27k")
+material_twig = SubResource("StandardMaterial3D_4uu2h")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.78249, 0.283189, -1.85144)
+
+[node name="Tree3D6" type="Tree3D" parent="."]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = ExtResource("3_vb27k")
+material_twig = SubResource("StandardMaterial3D_6nnmw")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.478, 0.349041, -1.64543)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.98211, 0.188308, -0.000970994, 0, 0.00515633, 0.999987, 0.188311, -0.982096, 0.00506408, -23.8825, 7.68107, -2.56408)
+environment = SubResource("Environment_21r7m")
+current = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera3D"]
+libraries = {
+"": SubResource("AnimationLibrary_onr1l")
+}
+autoplay = "cam_anim"
