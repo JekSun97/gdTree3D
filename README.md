@@ -3,9 +3,15 @@
 # gdTree3D
 Plugin for Godot Engine with which you can generate 3D trees.
 
-#Supported Godot Engine Versions
+##Supported Godot Engine Versions
 - Godot 4.2
 - Godot 4.3
 
-#Note
+##Note
 To ensure the tree displays correctly, use Cull Mode: Front for the tree trunk material.
+
+##Building GDExtension
+
+```
+scons platform=windows target= ...
+```
