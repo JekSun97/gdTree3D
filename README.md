@@ -1,9 +1,10 @@
-<img src="image/preview.png">
+<img src="image/tree3d.png">
 
 # gdTree3D
 Plugin for Godot Engine with which you can generate 3D trees.
 
 ## Supported Godot Engine Versions
+- Godot 4.1
 - Godot 4.2
 - Godot 4.3
 
@@ -15,3 +16,5 @@ To ensure the tree displays correctly, use Cull Mode: Front for the tree trunk m
 ```
 scons platform=windows target= ...
 ```
+
+<img src="image/preview.png">
