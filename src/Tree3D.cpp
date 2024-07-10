@@ -329,7 +329,7 @@ void Tree3D::UpdateMeshTrunk()
 		st->add_index(tree.mFace[i].y);
 		st->add_index(tree.mFace[i].z);
 	}
-	
+	st->optimize_indices_for_cache();
 	trunk_inst->set_mesh(st->commit());
 	
 }
@@ -354,7 +354,7 @@ void Tree3D::UpdateMeshTwig()
 		st->add_index(tree.mTwigFace[i].y);
 		st->add_index(tree.mTwigFace[i].z);
 	}
-	
+	st->optimize_indices_for_cache();
 	twig_inst->set_mesh(st->commit());
 	
 }
