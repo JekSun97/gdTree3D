@@ -38,6 +38,9 @@ public:
 	void set_seed(int seed);
 	int get_seed();
 	
+	void set_segments(int sg);
+	int get_segments();
+	
 	void set_material_trunk(const Ref<Material> &mat);
 	Ref<Material> get_material_trunk();
 	void set_material_twig(const Ref<Material> &mat);
@@ -75,6 +78,8 @@ public:
 	float get_twist();
 	void set_trunk_length(float value);
 	float get_trunk_length();
+	void set_uv_multiplier(float value);
+	float get_uv_multiplier();
 	
 	void set_twig_enable(bool value);
 	bool get_twig_enable();

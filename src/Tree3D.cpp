@@ -8,6 +8,9 @@ void Tree3D::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_seed"), &Tree3D::set_seed);
 	ClassDB::bind_method(D_METHOD("get_seed"), &Tree3D::get_seed);
 	
+	ClassDB::bind_method(D_METHOD("set_segments"), &Tree3D::set_segments);
+	ClassDB::bind_method(D_METHOD("get_segments"), &Tree3D::get_segments);
+	
 	ClassDB::bind_method(D_METHOD("set_branches_count", "count"), &Tree3D::set_branches_count);
 	ClassDB::bind_method(D_METHOD("get_branches_count"), &Tree3D::get_branches_count);
 	ClassDB::bind_method(D_METHOD("set_trunk_height", "height"), &Tree3D::set_trunk_height);
@@ -40,6 +43,8 @@ void Tree3D::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_twist"), &Tree3D::get_twist);
 	ClassDB::bind_method(D_METHOD("set_trunk_length", "length"), &Tree3D::set_trunk_length);
 	ClassDB::bind_method(D_METHOD("get_trunk_length"), &Tree3D::get_trunk_length);
+	ClassDB::bind_method(D_METHOD("set_uv_multiplier", "length"), &Tree3D::set_uv_multiplier);
+	ClassDB::bind_method(D_METHOD("get_uv_multiplier"), &Tree3D::get_uv_multiplier);
 	
 	ClassDB::bind_method(D_METHOD("set_twig_enable", "enable"), &Tree3D::set_twig_enable);
 	ClassDB::bind_method(D_METHOD("get_twig_enable"), &Tree3D::get_twig_enable);
@@ -55,6 +60,7 @@ void Tree3D::_bind_methods() {
 	ClassDB::add_property("Tree3D", PropertyInfo(Variant::INT, "seed", PROPERTY_HINT_RANGE, "0,100000,1"), "set_seed", "get_seed");
 	
 	ADD_GROUP("Trunk", "trunk_");
+	ClassDB::add_property("Tree3D", PropertyInfo(Variant::INT, "trunk_segments", PROPERTY_HINT_RANGE, "2,10,2"), "set_segments", "get_segments");
 	ClassDB::add_property("Tree3D", PropertyInfo(Variant::INT, "trunk_branches_count", PROPERTY_HINT_RANGE, "1,13,1"), "set_branches_count", "get_branches_count");
 	ClassDB::add_property("Tree3D", PropertyInfo(Variant::INT, "trunk_height", PROPERTY_HINT_RANGE, "0,100,1"), "set_trunk_height", "get_trunk_height");
 	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_branch_length", PROPERTY_HINT_RANGE, "0.1,10,0.01"), "set_branch_length", "get_branch_length");
@@ -71,6 +77,7 @@ void Tree3D::_bind_methods() {
 	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_kink", PROPERTY_HINT_RANGE, "-1,1,0.01"), "set_trunk_kink", "get_trunk_kink");
 	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_twist", PROPERTY_HINT_RANGE, "-5,5,0.01"), "set_twist", "get_twist");
 	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_length", PROPERTY_HINT_RANGE, "0,20,0.01"), "set_trunk_length", "get_trunk_length");
+	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_uv_multiplier", PROPERTY_HINT_RANGE, "0.1,10,0.01"), "set_uv_multiplier", "get_uv_multiplier");
 	
 	ADD_GROUP("Twig", "twig_");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "twig_enable"), "set_twig_enable", "get_twig_enable");
@@ -82,7 +89,6 @@ void Tree3D::_bind_methods() {
 }
 
 Tree3D::Tree3D() {
-	
 	trunk_inst = memnew(MeshInstance3D);
 	twig_inst = memnew(MeshInstance3D);	
 	this->add_child(trunk_inst);
@@ -109,6 +115,18 @@ UpdateAllMeshes();
 int Tree3D::get_seed() {
 	return tree.mProperties.mSeed;
 }
+
+
+void Tree3D::set_segments(int sg) {
+tree.mProperties.mSegments = sg;	
+tree.generate();
+UpdateMeshTrunk();
+}	
+
+int Tree3D::get_segments() {
+	return tree.mProperties.mSegments;
+}
+
 
 void Tree3D::set_branches_count(int cnt) {
 tree.mProperties.mLevels = cnt;
@@ -287,6 +305,16 @@ UpdateAllMeshes();
 
 float Tree3D::get_trunk_length() {
 	return tree.mProperties.mTrunkLength;
+}
+
+
+void Tree3D::set_uv_multiplier(float value) {
+tree.mProperties.mVMultiplier = value;
+UpdateAllMeshes();
+}	
+
+float Tree3D::get_uv_multiplier() {
+	return tree.mProperties.mVMultiplier;
 }
 
 
