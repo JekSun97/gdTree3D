@@ -1,3 +1,6 @@
+//Author: Artyom Bozhko (JekSun)
+//Repo: https://github.com/JekSun97/gdTree3D
+
 #ifndef TREE3D_H
 #define TREE3D_H
 

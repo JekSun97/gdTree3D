@@ -62,8 +62,8 @@ void Tree3D::_bind_methods() {
 	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_branch_factor", PROPERTY_HINT_RANGE, "0.1,20,0.01"), "set_branch_factor", "get_branch_factor");
 	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_branch_clump_max", PROPERTY_HINT_RANGE, "0,20,0.01"), "set_branch_clump_max", "get_branch_clump_max");
 	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_branch_clump_min", PROPERTY_HINT_RANGE, "0,20,0.01"), "set_branch_clump_min", "get_branch_clump_min");
-	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_drop_amount", PROPERTY_HINT_RANGE, "-5,5,0.01"), "set_drop_amount", "get_drop_amount");
-	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_grow_amount", PROPERTY_HINT_RANGE, "-5,5,0.01"), "set_grow_amount", "get_grow_amount");
+	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_drop_amount", PROPERTY_HINT_RANGE, "-5,5,0.001"), "set_drop_amount", "get_drop_amount");
+	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_grow_amount", PROPERTY_HINT_RANGE, "-5,5,0.001"), "set_grow_amount", "get_grow_amount");
 	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_sweep_amount", PROPERTY_HINT_RANGE, "-5,5,0.01"), "set_sweep_amount", "get_sweep_amount");
 	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_max_radius", PROPERTY_HINT_RANGE, "0.01,0.6,0.01"), "set_max_radius", "get_max_radius");
 	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_radius_falloff_rate", PROPERTY_HINT_RANGE, "0.1,1,0.01"), "set_radius_falloff_rate", "get_radius_falloff_rate");
@@ -82,31 +82,23 @@ void Tree3D::_bind_methods() {
 }
 
 Tree3D::Tree3D() {
-
+	
 	trunk_inst = memnew(MeshInstance3D);
-	twig_inst = memnew(MeshInstance3D);
-	add_child(trunk_inst);
-	add_child(twig_inst);
-	
+	twig_inst = memnew(MeshInstance3D);	
+	this->add_child(trunk_inst);
+	this->add_child(twig_inst);
 	UpdateAllMeshes();
-	
 	//godot::UtilityFunctions::print("Tree3D Init");
 	
 }
 
 Tree3D::~Tree3D() {
-	//memdelete(trunk_inst);
-	//memdelete(twig_inst);
+	
 	// Add your cleanup here.
-	//godot::UtilityFunctions::print("Tree3D delete");
 }
 
 void Tree3D::_process(double delta) {
-	// time_passed += delta;
-	// Vector3 new_position = Vector3(len + (len * sin(time_passed * 2.0)), len + (len * cos(time_passed * 1.5)),0.0);
-	// set_position(new_position);
 }
-
 
 
 void Tree3D::set_seed(int seed) {
