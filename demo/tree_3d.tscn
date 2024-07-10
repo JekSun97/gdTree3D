@@ -1,11 +1,11 @@
-[gd_scene load_steps=20 format=3 uid="uid://duc1c18y8ooso"]
+[gd_scene load_steps=21 format=3 uid="uid://duc1c18y8ooso"]
 
-[ext_resource type="Texture2D" uid="uid://cq7ttglewicmc" path="res://grass.png" id="3_kejuy"]
+[ext_resource type="Texture2D" uid="uid://nr4ank2txgsq" path="res://grass.png" id="3_kejuy"]
 [ext_resource type="Material" uid="uid://67ujeeqcjmgj" path="res://trunk_mat.tres" id="3_vb27k"]
 [ext_resource type="Material" uid="uid://7hn25igvds42" path="res://twig_mat.tres" id="4_ml0j2"]
-[ext_resource type="Texture2D" uid="uid://cp2up1qk6h7fe" path="res://Branches1.png" id="5_siv04"]
-[ext_resource type="Texture2D" uid="uid://b5b3lgohgo3pm" path="res://Branches2.png" id="6_6tr7v"]
-[ext_resource type="Texture2D" uid="uid://cbsamky53m0ud" path="res://Branches3.png" id="7_76wn7"]
+[ext_resource type="Texture2D" uid="uid://q451bajbg2ux" path="res://Branches1.png" id="5_siv04"]
+[ext_resource type="Texture2D" uid="uid://b53r5ww4ciutq" path="res://Branches2.png" id="6_6tr7v"]
+[ext_resource type="Texture2D" uid="uid://da1g8f5uas1jp" path="res://Branches3.png" id="7_76wn7"]
 
 [sub_resource type="GDScript" id="GDScript_83sgd"]
 script/source = "extends DirectionalLight3D
@@ -44,6 +44,16 @@ albedo_texture = ExtResource("6_6tr7v")
 transparency = 4
 cull_mode = 2
 albedo_color = Color(0.908971, 0.60999, 0.260339, 1)
+albedo_texture = ExtResource("7_76wn7")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lr3b5"]
+transparency = 2
+alpha_scissor_threshold = 0.244
+alpha_antialiasing_mode = 0
+cull_mode = 2
+shading_mode = 2
+specular_mode = 2
+albedo_color = Color(1, 0.529188, 0.213411, 1)
 albedo_texture = ExtResource("7_76wn7")
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_yr4ns"]
@@ -234,6 +244,22 @@ twig_scale = 2.0
 material_trunk = ExtResource("3_vb27k")
 material_twig = SubResource("StandardMaterial3D_6nnmw")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.478, 0.349041, -1.64543)
+
+[node name="Tree3D7" type="Tree3D" parent="."]
+seed = 325
+trunk_branches_count = 7
+trunk_height = 4
+trunk_branch_length = 0.89
+trunk_drop_amount = 0.151
+trunk_grow_amount = 0.033
+trunk_max_radius = 0.21
+trunk_climb_rate = 0.37
+trunk_twist = 2.21
+trunk_length = 4.83
+twig_scale = 0.7
+material_trunk = ExtResource("3_vb27k")
+material_twig = SubResource("StandardMaterial3D_lr3b5")
+transform = Transform3D(0.9725, 0, -0.232902, 0, 1, 0, 0.232902, 0, 0.9725, -30.9625, 0.351455, -2.10898)
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(0.98211, 0.188308, -0.000970994, 0, 0.00515633, 0.999987, 0.188311, -0.982096, 0.00506408, -23.8825, 7.68107, -2.56408)
