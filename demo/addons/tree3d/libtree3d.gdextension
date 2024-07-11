@@ -1,9 +1,9 @@
 [infomation]
 name = "Tree3D"
-version = "v0.5-dev"
+version = "v0.7-dev"
 decription = "Plugin for procedural generation of 3D trees of varying complexity."
 author = "Artyom Bozhko (JekSun)"
-email = "jeksun97@gmail.com"
+email = "jeksun2022@gmail.com"
 repo = "https://github.com/JekSun97/gdTree3D"
 
 [icons]
