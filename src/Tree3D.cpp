@@ -63,8 +63,8 @@ void Tree3D::_bind_methods() {
 	ClassDB::add_property("Tree3D", PropertyInfo(Variant::INT, "trunk_segments", PROPERTY_HINT_RANGE, "2,10,2"), "set_segments", "get_segments");
 	ClassDB::add_property("Tree3D", PropertyInfo(Variant::INT, "trunk_branches_count", PROPERTY_HINT_RANGE, "1,13,1"), "set_branches_count", "get_branches_count");
 	ClassDB::add_property("Tree3D", PropertyInfo(Variant::INT, "trunk_height", PROPERTY_HINT_RANGE, "0,100,1"), "set_trunk_height", "get_trunk_height");
-	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_branch_length", PROPERTY_HINT_RANGE, "0.1,10,0.01"), "set_branch_length", "get_branch_length");
-	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_branch_length_falloff", PROPERTY_HINT_RANGE, "0.15,1.7,0.01"), "set_branch_length_falloff", "get_branch_length_falloff");
+	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_branch_length", PROPERTY_HINT_RANGE, "0.01,10,0.001"), "set_branch_length", "get_branch_length");
+	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_branch_length_falloff", PROPERTY_HINT_RANGE, "0.0,2,0.001"), "set_branch_length_falloff", "get_branch_length_falloff");
 	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_branch_factor", PROPERTY_HINT_RANGE, "0.1,20,0.01"), "set_branch_factor", "get_branch_factor");
 	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_branch_clump_max", PROPERTY_HINT_RANGE, "0,20,0.01"), "set_branch_clump_max", "get_branch_clump_max");
 	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_branch_clump_min", PROPERTY_HINT_RANGE, "0,20,0.01"), "set_branch_clump_min", "get_branch_clump_min");
@@ -73,15 +73,15 @@ void Tree3D::_bind_methods() {
 	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_sweep_amount", PROPERTY_HINT_RANGE, "-5,5,0.01"), "set_sweep_amount", "get_sweep_amount");
 	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_max_radius", PROPERTY_HINT_RANGE, "0.01,0.6,0.01"), "set_max_radius", "get_max_radius");
 	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_radius_falloff_rate", PROPERTY_HINT_RANGE, "0.1,1,0.01"), "set_radius_falloff_rate", "get_radius_falloff_rate");
-	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_climb_rate", PROPERTY_HINT_RANGE, "0,50,0.01"), "set_climb_rate", "get_climb_rate");
-	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_kink", PROPERTY_HINT_RANGE, "-1,1,0.01"), "set_trunk_kink", "get_trunk_kink");
+	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_climb_rate", PROPERTY_HINT_RANGE, "0,50,0.001"), "set_climb_rate", "get_climb_rate");
+	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_kink", PROPERTY_HINT_RANGE, "-1,1,0.001"), "set_trunk_kink", "get_trunk_kink");
 	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_twist", PROPERTY_HINT_RANGE, "-5,5,0.01"), "set_twist", "get_twist");
-	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_length", PROPERTY_HINT_RANGE, "0,20,0.01"), "set_trunk_length", "get_trunk_length");
-	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_uv_multiplier", PROPERTY_HINT_RANGE, "0.1,10,0.01"), "set_uv_multiplier", "get_uv_multiplier");
+	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_length", PROPERTY_HINT_RANGE, "0,100,0.001"), "set_trunk_length", "get_trunk_length");
+	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_uv_multiplier", PROPERTY_HINT_RANGE, "0.001,50,0.001"), "set_uv_multiplier", "get_uv_multiplier");
 	
 	ADD_GROUP("Twig", "twig_");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "twig_enable"), "set_twig_enable", "get_twig_enable");
-	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "twig_scale", PROPERTY_HINT_RANGE, "0,5,0.05"), "set_twig_scale", "get_twig_scale");
+	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "twig_scale", PROPERTY_HINT_RANGE, "0,5,0.001"), "set_twig_scale", "get_twig_scale");
 	
 	ADD_GROUP("Materials", "material_");
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "material_trunk", PROPERTY_HINT_RESOURCE_TYPE, "StandardMaterial3D,ORMMaterial3D,ShaderMaterial"), "set_material_trunk", "get_material_trunk");
