@@ -29,4 +29,6 @@ Your name and your GitHub account (if you have one) will be listed below :)
 (Don't forget to write me an email so I can add you, your name and account)
 
 **List:**
-- Empty :(
+- Meier Lukas
+
+Thank you for your support!
