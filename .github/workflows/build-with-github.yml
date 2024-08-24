@@ -45,5 +45,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ format('binaries-{0}-{1}', matrix.os, matrix.godot_cpp_branch) }}
+          if-no-files-found: 'error'
           path: |
-            demo/demo/addons/tree3d/libtree3d.*
+            demo/addons/tree3d/libtree3d.*
