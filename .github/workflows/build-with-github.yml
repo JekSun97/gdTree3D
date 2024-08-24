@@ -25,8 +25,10 @@ jobs:
       - name: build binaries
         if: ${{ matrix.os != 'macos-latest' }}
         run: |
-          scons target=template_debug
-          scons target=template_release
+          scons target=template_debug arch=x86_32
+          scons target=template_release arch=x86_32
+          scons target=template_debug arch=x86_64
+          scons target=template_release arch=x86_64
       - name: build MacOS binaries
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
@@ -34,4 +36,9 @@ jobs:
           scons target=template_release arch=x86_64
           scons target=template_debug arch=arm64
           scons target=template_release arch=arm64
-          ls demo/addons/tree3d/libtree3d.macos.template_release.framework/
+      - name: archive built binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ format('binaries-{0}-{1}', matrix.os, matrix.godot_cpp_branch) }}
+          path: |
+            demo/demo/addons/tree3d/libtree3d.*
