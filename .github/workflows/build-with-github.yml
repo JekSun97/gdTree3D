@@ -41,6 +41,8 @@ jobs:
           scons target=template_release arch=x86_64
           scons target=template_debug arch=arm64
           scons target=template_release arch=arm64
+          lipo -create demo/addons/tree3d/libtree3d.macos.template_release.framework/libtree3d.macos.template_release.arm64 demo/addons/tree3d/libtree3d.macos.template_release.framework/libtree3d.macos.template_release.x86_64 -output demo/addons/tree3d/libtree3d.macos.template_release.framework/libtree3d.macos.template_release.universal
+          lipo -create demo/addons/tree3d/libtree3d.macos.template_debug.framework/libtree3d.macos.template_debug.arm64 demo/addons/tree3d/libtree3d.macos.template_debug.framework/libtree3d.macos.template_debug.x86_64 -output demo/addons/tree3d/libtree3d.macos.template_debug.framework/libtree3d.macos.template_debug.universal
       - name: archive built binaries
         uses: actions/upload-artifact@v4
         with:
