@@ -21,7 +21,17 @@ jobs:
           python-version: '3.11'
       # install SCons
       - run: python -m pip install scons
-      # compile (debug)
-      - run: scons target=template_debug
-      # compile (release)
-      - run: scons target=template_release
+      # compile binaries
+      - name: build binaries
+        if: ${{ matrix.os != 'macos-latest' }}
+        run: |
+          scons target=template_debug
+          scons target=template_release
+      - name: build MacOS binaries
+        if: ${{ matrix.os == 'macos-latest' }}
+        run: |
+          scons target=template_debug arch=x86_64
+          scons target=template_release arch=x86_64
+          scons target=template_debug arch=arm64
+          scons target=template_release arch=arm64
+          ls demo/addons/tree3d/libtree3d.macos.template_release.framework/
