@@ -5,7 +5,7 @@ jobs:
     strategy:
       matrix:
         godot_cpp_branch: [4.1, 4.2, 4.3]
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-24.04, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
       # clone current repo
@@ -17,24 +17,23 @@ jobs:
           ref: ${{ matrix.godot_cpp_branch }}
           path: 'godot-cpp'
           submodules: true
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      # install build dependencies/tools
-      - run: python -m pip install scons
-      - name: Install and cache required 32bit packages
-        if: ${{ matrix.os == 'ubuntu-latest' }}
+      - name: Install build dependencies
+        if: ${{ matrix.os == 'ubuntu-24.04' }}
         uses: awalsh128/cache-apt-pkgs-action@v1.4.2
         with:
-          packages: gcc-multilib g++-multilib
-      # compile binaries
+          packages: mingw-w64 scons
+      # compile binaries (linux + windows)
       - name: build binaries
         if: ${{ matrix.os != 'macos-latest' }}
         run: |
-          scons target=template_debug arch=x86_32 debug_symbols=yes production=yes
-          scons target=template_release arch=x86_32 debug_symbols=yes production=yes
-          scons target=template_debug arch=x86_64 debug_symbols=yes production=yes
-          scons target=template_release arch=x86_64 debug_symbols=yes production=yes
+          scons target=template_debug arch=x86_32
+          scons target=template_release arch=x86_32
+          scons target=template_debug arch=x86_64
+          scons target=template_release arch=x86_64
+          scons target=template_debug arch=x86_32 platform=windows
+          scons target=template_release arch=x86_32 platform=windows
+          scons target=template_debug arch=x86_64 platform=windows
+          scons target=template_release arch=x86_64 platform=windows
       - name: build MacOS binaries
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
@@ -44,10 +43,27 @@ jobs:
           scons target=template_release arch=arm64
           lipo -create demo/addons/tree3d/libtree3d.macos.template_release.framework/libtree3d.macos.template_release.arm64 demo/addons/tree3d/libtree3d.macos.template_release.framework/libtree3d.macos.template_release.x86_64 -output demo/addons/tree3d/libtree3d.macos.template_release.framework/libtree3d.macos.template_release.universal
           lipo -create demo/addons/tree3d/libtree3d.macos.template_debug.framework/libtree3d.macos.template_debug.arm64 demo/addons/tree3d/libtree3d.macos.template_debug.framework/libtree3d.macos.template_debug.x86_64 -output demo/addons/tree3d/libtree3d.macos.template_debug.framework/libtree3d.macos.template_debug.universal
-      - name: archive built binaries
+      - name: archive built binaries (linux)
         uses: actions/upload-artifact@v4
+        if: ${{ matrix.os == 'ubuntu-24.04' }}
         with:
-          name: ${{ format('binaries-{0}-{1}', matrix.os, matrix.godot_cpp_branch) }}
+          name: ${{ format('binaries-linux-godot{0}', matrix.godot_cpp_branch) }}
+          if-no-files-found: 'error'
+          path: |
+            demo/addons/tree3d/libtree3d.linux.*
+      - name: archive built binaries (windows)
+        uses: actions/upload-artifact@v4
+        if: ${{ matrix.os == 'ubuntu-24.04' }}
+        with:
+          name: ${{ format('binaries-windows-godot{0}', matrix.godot_cpp_branch) }}
+          if-no-files-found: 'error'
+          path: |
+            demo/addons/tree3d/libtree3d.windows.*
+      - name: archive built binaries (macos)
+        uses: actions/upload-artifact@v4
+        if: ${{ matrix.os == 'macos-latest' }}
+        with:
+          name: ${{ format('binaries-macos-godot{0}', matrix.godot_cpp_branch) }}
           if-no-files-found: 'error'
           path: |
             demo/addons/tree3d/libtree3d.*
