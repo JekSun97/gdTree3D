@@ -31,10 +31,10 @@ jobs:
       - name: build binaries
         if: ${{ matrix.os != 'macos-latest' }}
         run: |
-          scons target=template_debug arch=x86_32 debug_symbols=yes
-          scons target=template_release arch=x86_32 debug_symbols=yes
-          scons target=template_debug arch=x86_64 debug_symbols=yes
-          scons target=template_release arch=x86_64 debug_symbols=yes
+          scons target=template_debug arch=x86_32 debug_symbols=yes production=yes
+          scons target=template_release arch=x86_32 debug_symbols=yes production=yes
+          scons target=template_debug arch=x86_64 debug_symbols=yes production=yes
+          scons target=template_release arch=x86_64 debug_symbols=yes production=yes
       - name: build MacOS binaries
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
