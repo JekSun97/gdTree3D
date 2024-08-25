@@ -18,8 +18,8 @@ sources = Glob("src/*.cpp")
 
 if env["platform"] == "macos":
     library = env.SharedLibrary(
-        "demo/addons/tree3d/libtree3d.{}.{}.framework/libtree3d.{}.{}.{}".format(
-            env["platform"], env["target"], env["platform"], env["target"], env["arch"]
+        "demo/addons/tree3d/libtree3d.{}.{}.framework/libtree3d.{}.{}".format(
+            env["platform"], env["target"], env["platform"], env["target"]
         ),
         source=sources,
     )
