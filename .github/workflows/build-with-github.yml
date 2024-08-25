@@ -16,6 +16,7 @@ jobs:
           repository: 'godotengine/godot-cpp'
           ref: ${{ matrix.godot_cpp_branch }}
           path: 'godot-cpp'
+          submodules: true
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
