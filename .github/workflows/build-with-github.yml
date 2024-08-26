@@ -5,7 +5,7 @@ jobs:
     strategy:
       matrix:
         godot_cpp_branch: [4.1, 4.2, 4.3]
-        os: [ubuntu-24.04, macos-latest]
+        os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
       # clone current repo
@@ -17,33 +17,41 @@ jobs:
           ref: ${{ matrix.godot_cpp_branch }}
           path: 'godot-cpp'
           submodules: true
-      - name: Install build dependencies
-        if: ${{ matrix.os == 'ubuntu-24.04' }}
-        uses: awalsh128/cache-apt-pkgs-action@v1.4.2
-        with:
-          packages: mingw-w64 scons gcc-multilib g++-multilib
-      # install build dependencies/tools on macos too
+      # install build dependencies/tools on macos
       - run: python -m pip install scons
         if: ${{ matrix.os == 'macos-latest' }}
-      # compile binaries (linux + windows)
+      - name: create docker image for building our binaries
+        if: ${{ matrix.os != 'macos-latest' }}
+        run: |
+          docker build -t tree3dbuilder:latest .
+      # compile binaries via our docker build image (linux + windows)
+      # using the Github Actions provided tools end up in corrupted DLL/SO files that did not work
+      # makes it easier to create Linux and Windows binaries on other systems more reliable
       - name: build binaries
         if: ${{ matrix.os != 'macos-latest' }}
         run: |
-          scons target=template_debug arch=x86_32
-          scons target=template_release arch=x86_32
-          scons target=template_debug arch=x86_64
-          scons target=template_release arch=x86_64
-          scons target=template_debug arch=x86_32 platform=windows
-          scons target=template_release arch=x86_32 platform=windows
-          scons target=template_debug arch=x86_64 platform=windows
-          scons target=template_release arch=x86_64 platform=windows
+          # linux 32 bit (x86)
+          docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_debug arch=x86_32
+          docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_release arch=x86_32
+          # linux 64 bit (x86)
+          docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_debug arch=x86_64
+          docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_release arch=x86_64
+          # windows 32 bit (x86)
+          docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_debug arch=x86_32 platform=windows
+          docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_release arch=x86_32 platform=windows
+          # windows 64 bit (x86)
+          docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_debug arch=x86_64 platform=windows
+          docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_release arch=x86_64 platform=windows
       - name: build MacOS binaries
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
+          # MacOS 64 bit (x86)
           scons target=template_debug arch=x86_64
           scons target=template_release arch=x86_64
+          # MacOS 64 bit (Apple Silicon/ARM)
           scons target=template_debug arch=arm64
           scons target=template_release arch=arm64
+          # create "Universal 2" files
           lipo -create demo/addons/tree3d/libtree3d.macos.template_release.framework/libtree3d.macos.template_release.arm64 demo/addons/tree3d/libtree3d.macos.template_release.framework/libtree3d.macos.template_release.x86_64 -output demo/addons/tree3d/libtree3d.macos.template_release.framework/libtree3d.macos.template_release.universal
           lipo -create demo/addons/tree3d/libtree3d.macos.template_debug.framework/libtree3d.macos.template_debug.arm64 demo/addons/tree3d/libtree3d.macos.template_debug.framework/libtree3d.macos.template_debug.x86_64 -output demo/addons/tree3d/libtree3d.macos.template_debug.framework/libtree3d.macos.template_debug.universal
       - name: archive built binaries (linux)
