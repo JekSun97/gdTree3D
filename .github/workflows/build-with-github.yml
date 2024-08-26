@@ -6,6 +6,8 @@ jobs:
     strategy:
       matrix:
         godot_cpp_branch: [4.1, 4.2, 4.3]
+        # do NOT compile in one go, would result in corrupted DLL (probably due to file-resue of 32bit files in 64bit run)
+        target_arch: [x86_32, x86_64]
     steps:
       # clone current repo
       - uses: actions/checkout@v4
@@ -20,20 +22,16 @@ jobs:
         run: |
           docker build -t tree3dbuilder:latest .
       # compile binaries via our docker build image (linux)
-      # using the Github Actions provided tools end up in corrupted SO files that did not work
       # makes it easier to create Linux and Windows binaries on other systems more reliable
       - name: build binaries
         run: |
           # linux 32 bit (x86)
-          docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_debug arch=x86_32
-          docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_release arch=x86_32
-          # linux 64 bit (x86)
-          docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_debug arch=x86_64
-          docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_release arch=x86_64
+          docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_debug arch=${{ matrix.target_arch }}
+          docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_release arch=${{ matrix.target_arch }}
       - name: archive built binaries (linux)
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ format('binaries-linux-godot{0}', matrix.godot_cpp_branch) }}
+          name: ${{ format('binaries-linux-godot{0}-{1}', matrix.godot_cpp_branch, matrix.target_arch) }}
           if-no-files-found: 'error'
           path: |
             demo/addons/tree3d/libtree3d.linux.*
@@ -42,6 +40,8 @@ jobs:
     strategy:
       matrix:
         godot_cpp_branch: [4.1, 4.2, 4.3]
+        # do NOT compile in one go, would result in corrupted DLL (probably due to file-resue of 32bit files in 64bit run)
+        target_arch: [x86_32, x86_64]
     steps:
       # clone current repo
       - uses: actions/checkout@v4
@@ -56,20 +56,15 @@ jobs:
         run: |
           docker build -t tree3dbuilder:latest .
       # compile binaries via our docker build image (windows)
-      # using the Github Actions provided tools end up in corrupted DLL files that did not work
       # makes it easier to create Linux and Windows binaries on other systems more reliable
       - name: build binaries
         run: |
-          # windows 32 bit (x86)
-          docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_debug arch=x86_32 platform=windows
-          docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_release arch=x86_32 platform=windows
-          # windows 64 bit (x86)
-          docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_debug arch=x86_64 platform=windows
-          docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_release arch=x86_64 platform=windows
+          docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_debug arch=${{ matrix.target_arch }} platform=windows
+          docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_release arch=${{ matrix.target_arch }} platform=windows
       - name: archive built binaries (windows)
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ format('binaries-windows-godot{0}', matrix.godot_cpp_branch) }}
+          name: ${{ format('binaries-windows-godot{0}-{1}', matrix.godot_cpp_branch, matrix.target_arch) }}
           if-no-files-found: 'error'
           path: |
             demo/addons/tree3d/libtree3d.windows.*
@@ -110,3 +105,6 @@ jobs:
             demo/addons/tree3d/libtree3d.*
 
 # TODO create installable "ZIP" file and separate "demo" project ZIP
+# TODO add "android" and other platforms (if possible)
+# TODO add Windows ARM (when arm-mingw is usable from anywhere)
+# TODO check if MacOS works fine
