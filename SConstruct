@@ -16,17 +16,17 @@ env = SConscript("godot-cpp/SConstruct")
 env.Append(CPPPATH=["src/"])
 sources = Glob("src/*.cpp")
 
+targetLibraryFileOutput = "demo/addons/tree3d/libtree3d{}{}".format(env["suffix"], env["SHLIBSUFFIX"])
+
+# on MacOS we need use different filename parameters
 if env["platform"] == "macos":
-    library = env.SharedLibrary(
-        "demo/addons/tree3d/libtree3d.{}.{}.framework/libtree3d.{}.{}.{}".format(
-            env["platform"], env["target"], env["platform"], env["target"], env["arch"]
-        ),
-        source=sources,
+    targetLibraryFileOutput = "demo/addons/tree3d/libtree3d.{}.{}.{}".format(
+        env["platform"], env["target"], env["arch"]
     )
-else:
-    library = env.SharedLibrary(
-        "demo/addons/tree3d/libtree3d{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
-        source=sources,
-    )
+
+library = env.SharedLibrary(
+    targetLibraryFileOutput,
+    source=sources,
+)
 
 Default(library)
