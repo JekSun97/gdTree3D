@@ -94,17 +94,16 @@ jobs:
           scons target=template_debug arch=arm64
           scons target=template_release arch=arm64
           # create "Universal 2" files
-          lipo -create demo/addons/tree3d/libtree3d.macos.template_release.framework/libtree3d.macos.template_release.arm64 demo/addons/tree3d/libtree3d.macos.template_release.framework/libtree3d.macos.template_release.x86_64 -output demo/addons/tree3d/libtree3d.macos.template_release.framework/libtree3d.macos.template_release.universal
-          lipo -create demo/addons/tree3d/libtree3d.macos.template_debug.framework/libtree3d.macos.template_debug.arm64 demo/addons/tree3d/libtree3d.macos.template_debug.framework/libtree3d.macos.template_debug.x86_64 -output demo/addons/tree3d/libtree3d.macos.template_debug.framework/libtree3d.macos.template_debug.universal
+          lipo -create demo/addons/tree3d/libtree3d.macos.template_release.arm64 demo/addons/tree3d/libtree3d.macos.template_release.x86_64 -output demo/addons/tree3d/libtree3d.macos.template_release.universal
+          lipo -create demo/addons/tree3d/libtree3d.macos.template_debug.arm64 demo/addons/tree3d/libtree3d.macos.template_debug.x86_64 -output demo/addons/tree3d/libtree3d.macos.template_debug.universal
       - name: archive built binaries (macos)
         uses: actions/upload-artifact@v4
         with:
           name: ${{ format('binaries-macos-godot{0}', matrix.godot_cpp_branch) }}
           if-no-files-found: 'error'
           path: |
-            demo/addons/tree3d/libtree3d.*
+            demo/addons/tree3d/libtree3d.macos.*
 
 # TODO create installable "ZIP" file and separate "demo" project ZIP
 # TODO add "android" and other platforms (if possible)
 # TODO add Windows ARM (when arm-mingw is usable from anywhere)
-# TODO check if MacOS works fine

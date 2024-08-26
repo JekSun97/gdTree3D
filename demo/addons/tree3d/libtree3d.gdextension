@@ -7,18 +7,15 @@ email = "jeksun2022@gmail.com"
 repo = "https://github.com/JekSun97/gdTree3D"
 
 [icons]
-
 Tree3D = "res://addons/tree3d/ico/Tree3D.png"
 
 [configuration]
-
 entry_symbol = "tree3d_library_init"
 compatibility_minimum = "4.1"
 
 [libraries]
-
-macos.debug = "res://addons/tree3d/libtree3d.macos.template_debug.framework"
-macos.release = "res://addons/tree3d/libtree3d.macos.template_release.framework"
+macos.debug = "res://addons/tree3d/libtree3d.macos.template_debug.universal"
+macos.release = "res://addons/tree3d/libtree3d.macos.template_release.universal"
 windows.debug.x86_32 = "res://addons/tree3d/libtree3d.windows.template_debug.x86_32.dll"
 windows.release.x86_32 = "res://addons/tree3d/libtree3d.windows.template_release.x86_32.dll"
 windows.debug.x86_64 = "res://addons/tree3d/libtree3d.windows.template_debug.x86_64.dll"
