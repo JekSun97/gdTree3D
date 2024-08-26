@@ -24,7 +24,7 @@ Or use [ready-made libraries](https://github.com/JekSun97/gdTree3D/releases)
 <img src="image/preview.png">
 
 ## Donations
-If you liked this plugin, you could send me a thank you via PayPal using **jeksun2022@gmail.com**, I would be very grateful!
+If you liked this plugin, you could send me a thank you via Ko-Fi using [Ko-Fi](https://ko-fi.com/jeksun), I would be very grateful!
 Your name and your GitHub account (if you have one) will be listed below :)
 (Don't forget to write me an email so I can add you, your name and account)
 
