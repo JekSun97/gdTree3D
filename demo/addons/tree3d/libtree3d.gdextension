@@ -11,7 +11,7 @@ Tree3D = "res://addons/tree3d/ico/Tree3D.png"
 
 [configuration]
 entry_symbol = "tree3d_library_init"
-compatibility_minimum = "4.1"
+compatibility_minimum = "4.0"
 
 [libraries]
 macos.debug = "res://addons/tree3d/libtree3d.macos.template_debug.universal"
