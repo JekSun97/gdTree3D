@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        godot_cpp_branch: [4.1, 4.2, 4.3]
+        godot_cpp_branch: ["4.0", "4.1", "4.2", "4.3"]
         # do NOT compile in one go, would result in corrupted DLL (probably due to file-resue of 32bit files in 64bit run)
         target_arch: [x86_32, x86_64]
     steps:
@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        godot_cpp_branch: [4.1, 4.2, 4.3]
+        godot_cpp_branch: ["4.0", "4.1", "4.2", "4.3"]
         # do NOT compile in one go, would result in corrupted DLL (probably due to file-resue of 32bit files in 64bit run)
         target_arch: [x86_32, x86_64]
     steps:
@@ -72,7 +72,7 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        godot_cpp_branch: [4.1, 4.2, 4.3]
+        godot_cpp_branch: ["4.0", "4.1", "4.2", "4.3"]
     steps:
       # clone current repo
       - uses: actions/checkout@v4

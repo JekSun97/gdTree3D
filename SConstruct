@@ -24,6 +24,14 @@ if env["platform"] == "macos":
         env["platform"], env["target"], env["arch"]
     )
 
+# Godot 4.0 has a different type/interface for register_types
+#
+# there probably are better ways, but checking the existence of a certain file,
+# which was not present "in the past", was the best clue I got.
+
+if not os.path.isfile("godot-cpp/pyproject.toml"):
+    env.Append(CPPDEFINES=['GODOT_40'])
+
 library = env.SharedLibrary(
     targetLibraryFileOutput,
     source=sources,
