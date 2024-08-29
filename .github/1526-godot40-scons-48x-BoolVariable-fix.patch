@@ -1,0 +1,47 @@
+From 8e22ac263e46adb123911ed544fb12f461cfb067 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?R=C3=A9mi=20Verschelde?= <rverschelde@gmail.com>
+Date: Wed, 17 Jul 2024 14:14:37 +0200
+Subject: [PATCH] SCons: Fix BoolVariable import for SCons 4.8.0+
+
+---
+ tools/ios.py     | 2 +-
+ tools/linux.py   | 2 +-
+ tools/windows.py | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/tools/ios.py b/tools/ios.py
+index 11d606b9a..aac59d24c 100644
+--- a/tools/ios.py
++++ b/tools/ios.py
+@@ -2,7 +2,7 @@
+ import sys
+ import subprocess
+ import ios_osxcross
+-from SCons.Variables import *
++from SCons.Variables import BoolVariable
+ 
+ if sys.version_info < (3,):
+ 
+diff --git a/tools/linux.py b/tools/linux.py
+index 099a04847..b10f188dc 100644
+--- a/tools/linux.py
++++ b/tools/linux.py
+@@ -1,4 +1,4 @@
+-from SCons.Variables import *
++from SCons.Variables import BoolVariable
+ from SCons.Tool import clang, clangxx
+ 
+ 
+diff --git a/tools/windows.py b/tools/windows.py
+index e64695ae1..a1644a978 100644
+--- a/tools/windows.py
++++ b/tools/windows.py
+@@ -3,7 +3,7 @@
+ import my_spawn
+ 
+ from SCons.Tool import msvc, mingw
+-from SCons.Variables import *
++from SCons.Variables import BoolVariable
+ 
+ 
+ def options(opts):

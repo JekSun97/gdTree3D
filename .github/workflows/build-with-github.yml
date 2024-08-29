@@ -85,6 +85,13 @@ jobs:
           submodules: true
       # install build dependencies/tools on macos
       - run: python -m pip install scons
+      # see https://github.com/godotengine/godot-cpp/issues/1518
+      # see https://github.com/godotengine/godot-cpp/pull/1526
+      - name: apply Godot 4.0.x patch for scons 4.8.x
+        if: ${{ matrix.godot_cpp_branch == '4.0' }}
+        run: |
+          cd godot-cpp
+          git apply ../.github/1526-godot40-scons-48x-BoolVariable-fix.patch
       - name: build MacOS binaries
         run: |
           # MacOS 64 bit (x86)
