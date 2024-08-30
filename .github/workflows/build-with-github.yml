@@ -1,5 +1,12 @@
 name: Build With Github
-on: [push]
+
+on:
+  push:
+    # build and bundle for every branch push
+    branches: ["*"]
+    # create github release when commit was marked via "git tag"
+    tags: ["v*"]
+
 jobs:
   Build-Linux:
     runs-on: ubuntu-latest
@@ -128,8 +135,8 @@ jobs:
           path: generated-binaries
           pattern: ${{ format('binaries-*-godot{0}-*', matrix.godot_cpp_branch) }}
           merge-multiple: true
-      - run: |
-          ls
+      - name: move artifacts to their proper place
+        run: |
           mkdir -p demo/addons/
           mv generated-binaries/* demo/addons/
       - name: create gdExtension ZIP for Godot ${{ matrix.godot_cpp_branch }}
@@ -146,6 +153,33 @@ jobs:
           if-no-files-found: 'error'
           path: |
             demo/*
+  Create-Github-Draft-Release:
+    # wait for all binaries being created
+    needs: [Bundle-All-In-One-ZIP]
+    runs-on: ubuntu-latest
+    # only create when tagged
+    if: ${{ startsWith(github.ref, 'refs/tags/') }}
+    steps:
+      - name: Download All-In-One ZIP (addon)
+        uses: dawidd6/action-download-artifact@v6
+        with:
+          skip_unpack: true
+          name: gdTree3D-addon-godot*
+          name_is_regexp: true
+      - name: Download All-In-One ZIP (demo project)
+        uses: dawidd6/action-download-artifact@v6
+        with:
+          skip_unpack: true
+          name: gdTree3D-demo-project-godot*
+          name_is_regexp: true
+      - run: |
+          ls
+      - name: create draft release
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          files: |
+            *.zip
 
 # TODO add "android" and other platforms (if possible)
 # TODO add Windows ARM (when arm-mingw is usable from anywhere)
