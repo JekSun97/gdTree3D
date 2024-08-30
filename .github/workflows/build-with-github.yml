@@ -120,6 +120,8 @@ jobs:
       matrix:
         godot_cpp_branch: ["4.0", "4.1", "4.2", "4.3"]
     steps:
+      # clone current repo
+      - uses: actions/checkout@v4
       - name: download all created binaries for Godot ${{ matrix.godot_cpp_branch }}
         uses: actions/download-artifact@v4
         with:
