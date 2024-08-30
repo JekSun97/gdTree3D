@@ -6,7 +6,7 @@ jobs:
     strategy:
       matrix:
         godot_cpp_branch: ["4.0", "4.1", "4.2", "4.3"]
-        # do NOT compile in one go, would result in corrupted DLL (probably due to file-resue of 32bit files in 64bit run)
+        # do NOT compile CPU archs in one go, would result in corrupted DLL (probably due to file-resue of 32bit files in 64bit run)
         target_arch: [x86_32, x86_64]
     steps:
       # clone current repo
@@ -20,27 +20,27 @@ jobs:
           submodules: true
       - name: create docker image for building our binaries
         run: |
-          docker build -t tree3dbuilder:latest .
+          docker build -t gdtree3dbuilder:latest .
       # compile binaries via our docker build image (linux)
       # makes it easier to create Linux and Windows binaries on other systems more reliable
       - name: build binaries
         run: |
           # linux 32 bit (x86)
-          docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_debug arch=${{ matrix.target_arch }}
-          docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_release arch=${{ matrix.target_arch }}
+          docker run --rm -v "$(pwd):/source" gdtree3dbuilder:latest scons target=template_debug arch=${{ matrix.target_arch }}
+          docker run --rm -v "$(pwd):/source" gdtree3dbuilder:latest scons target=template_release arch=${{ matrix.target_arch }}
       - name: archive built binaries (linux)
         uses: actions/upload-artifact@v4
         with:
           name: ${{ format('binaries-linux-godot{0}-{1}', matrix.godot_cpp_branch, matrix.target_arch) }}
           if-no-files-found: 'error'
           path: |
-            demo/addons/tree3d/libtree3d.linux.*
+            demo/addons/gdTree3D/gdTree3D.linux.*
   Build-Windows:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         godot_cpp_branch: ["4.0", "4.1", "4.2", "4.3"]
-        # do NOT compile in one go, would result in corrupted DLL (probably due to file-resue of 32bit files in 64bit run)
+        # do NOT compile CPU archs in one go, would result in corrupted DLL (probably due to file-resue of 32bit files in 64bit run)
         target_arch: [x86_32, x86_64]
     steps:
       # clone current repo
@@ -54,20 +54,20 @@ jobs:
           submodules: true
       - name: create docker image for building our binaries
         run: |
-          docker build -t tree3dbuilder:latest .
+          docker build -t gdtree3dbuilder:latest .
       # compile binaries via our docker build image (windows)
       # makes it easier to create Linux and Windows binaries on other systems more reliable
       - name: build binaries
         run: |
-          docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_debug arch=${{ matrix.target_arch }} platform=windows
-          docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_release arch=${{ matrix.target_arch }} platform=windows
+          docker run --rm -v "$(pwd):/source" gdtree3dbuilder:latest scons target=template_debug arch=${{ matrix.target_arch }} platform=windows
+          docker run --rm -v "$(pwd):/source" gdtree3dbuilder:latest scons target=template_release arch=${{ matrix.target_arch }} platform=windows
       - name: archive built binaries (windows)
         uses: actions/upload-artifact@v4
         with:
           name: ${{ format('binaries-windows-godot{0}-{1}', matrix.godot_cpp_branch, matrix.target_arch) }}
           if-no-files-found: 'error'
           path: |
-            demo/addons/tree3d/libtree3d.windows.*
+            demo/addons/gdTree3D/gdTree3D.windows.*
   Build-MacOS:
     runs-on: macos-latest
     strategy:
@@ -101,15 +101,15 @@ jobs:
           scons target=template_debug arch=arm64
           scons target=template_release arch=arm64
           # create "Universal 2" files
-          lipo -create demo/addons/tree3d/libtree3d.macos.template_release.arm64 demo/addons/tree3d/libtree3d.macos.template_release.x86_64 -output demo/addons/tree3d/libtree3d.macos.template_release.universal
-          lipo -create demo/addons/tree3d/libtree3d.macos.template_debug.arm64 demo/addons/tree3d/libtree3d.macos.template_debug.x86_64 -output demo/addons/tree3d/libtree3d.macos.template_debug.universal
+          lipo -create demo/addons/gdTree3D/gdTree3D.macos.template_release.arm64 demo/addons/gdTree3D/gdTree3D.macos.template_release.x86_64 -output demo/addons/gdTree3D/gdTree3D.macos.template_release.universal
+          lipo -create demo/addons/gdTree3D/gdTree3D.macos.template_debug.arm64 demo/addons/gdTree3D/gdTree3D.macos.template_debug.x86_64 -output demo/addons/gdTree3D/gdTree3D.macos.template_debug.universal
       - name: archive built binaries (macos)
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ format('binaries-macos-godot{0}', matrix.godot_cpp_branch) }}
+          name: ${{ format('binaries-macos-godot{0}-universal', matrix.godot_cpp_branch) }}
           if-no-files-found: 'error'
           path: |
-            demo/addons/tree3d/libtree3d.macos.*
+            demo/addons/gdTree3D/gdTree3D.macos.*
   Bundle-All-In-One-ZIP:
     # wait for all binaries being created
     needs: [Build-Linux, Build-Windows, Build-MacOS]
@@ -121,17 +121,23 @@ jobs:
       - name: download all created binaries for Godot ${{ matrix.godot_cpp_branch }}
         uses: actions/download-artifact@v4
         with:
-          path: demo/addons/tree3d/
+          path: demo/addons/gdTree3D/
           pattern: ${{ format('binaries-*-godot{0}-*', matrix.godot_cpp_branch) }}
           merge-multiple: true
-      - name: create addon archive for Godot ${{ matrix.godot_cpp_branch }}
+      - name: create gdExtension ZIP for Godot ${{ matrix.godot_cpp_branch }}
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ format('tree3d-addon-godot{0}', matrix.godot_cpp_branch) }}
+          name: ${{ format('gdTree3D-addon-godot{0}', matrix.godot_cpp_branch) }}
           if-no-files-found: 'error'
           path: |
-            demo/addons/tree3d/*
+            demo/addons/*
+      - name: create demo ZIP for Godot ${{ matrix.godot_cpp_branch }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ format('gdTree3D-demo-project-godot{0}', matrix.godot_cpp_branch) }}
+          if-no-files-found: 'error'
+          path: |
+            demo/*
 
-# TODO create installable "ZIP" file and separate "demo" project ZIP
 # TODO add "android" and other platforms (if possible)
 # TODO add Windows ARM (when arm-mingw is usable from anywhere)

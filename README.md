@@ -1,27 +1,37 @@
-<img src="image/tree3d.png">
-
 # gdTree3D
 Plugin for procedural generation of 3D trees of varying complexity.
 
+<img src="image/gdTree3D.png">
+
 ## Supported Godot Engine Versions
+- Godot 4.0
 - Godot 4.1
 - Godot 4.2
 - Godot 4.3
 
-## Note
+<img src="image/preview.png">
+
+## Notes
 - To ensure the tree displays correctly, use Cull Mode: Front for the tree trunk material.
 - To change the season, you can make one unique leaf material for all the trees and then change its color or texture to make them yellow.
 
-## Building GDExtension
+## Building the GDExtension
 
 1. Place [godot-cpp](https://github.com/godotengine/godot-cpp) of the version you need in the godot-cpp folder
-2. Use the SCons command:
-```
-scons platform=windows target= ...
+2. Use the SCons command (depending on your platform and Godot build version):
+```sh
+scons target=template_release platform=windows
 ```
 Or use [ready-made libraries](https://github.com/JekSun97/gdTree3D/releases)
 
-<img src="image/preview.png">
+## Using Docker to build this GDExtension
+
+For easier reproducibility, there is a Dockerfile provided for building binaries for Linux and Windows.
+
+```sh
+docker build -t gdtree3dbuilder:latest .
+docker run --rm -v "$(pwd):/source" gdtree3dbuilder:latest scons target=template_release arch=x86_64 platform=windows
+```
 
 ## Donations
 If you liked this plugin, you could send me a thank you via Ko-Fi using [Ko-Fi](https://ko-fi.com/jeksun), I would be very grateful!

@@ -16,11 +16,11 @@ env = SConscript("godot-cpp/SConstruct")
 env.Append(CPPPATH=["src/"])
 sources = Glob("src/*.cpp")
 
-targetLibraryFileOutput = "demo/addons/tree3d/libtree3d{}{}".format(env["suffix"], env["SHLIBSUFFIX"])
+targetLibraryFileOutput = "demo/addons/gdTree3D/gdTree3D{}{}".format(env["suffix"], env["SHLIBSUFFIX"])
 
 # on MacOS we need use different filename parameters
 if env["platform"] == "macos":
-    targetLibraryFileOutput = "demo/addons/tree3d/libtree3d.{}.{}.{}".format(
+    targetLibraryFileOutput = "demo/addons/gdTree3D/gdTree3D.{}.{}.{}".format(
         env["platform"], env["target"], env["arch"]
     )
 
