@@ -13,3 +13,6 @@
 /demo/.godot
 /demo/*.import
 /demo/**/*.import
+
+# ignore generated file
+/demo/addons/

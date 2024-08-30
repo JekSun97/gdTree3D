@@ -25,17 +25,31 @@ if env["platform"] == "macos":
         env["platform"], env["target"], env["arch"]
     )
 
+# copy addons template to demo project
+# makes it usable even without Github Actions runner
+# use "Install" instead of "Copy"
+# https://stackoverflow.com/a/35442344/1961102
+copy_static_files_to_demo_folder = env.Install("demo/", "addons")
+
+version_replacement_dict = {}
+
 # Godot 4.0 has a different type/interface for register_types
 #
 # there probably are better ways, but checking the existence of a certain file,
 # which was not present "in the past", was the best clue I got.
-
 if not os.path.isfile("godot-cpp/pyproject.toml"):
     env.Append(CPPDEFINES=['GODOT_40'])
+    # the .gdextension file CAN NOT have "4.0" in it, because Godot 4.1+ would reject it
+    # so change it only for Godot 4.0.x to be "4.0" instead of "4.1"
+    version_replacement_dict = {'compatibility_minimum = "4.1"': 'compatibility_minimum = "4.0"'}
+
+# always generate .gdextension file (as we need to replace stuff there)
+generate_gdextension_file = env.Substfile(source = 'addons/gdTree3D/gdTree3D.gdextension', target = 'demo/addons/gdTree3D/gdTree3D.gdextension', SUBST_DICT = version_replacement_dict)
 
 library = env.SharedLibrary(
     targetLibraryFileOutput,
     source=sources,
 )
 
-Default(library)
+# will be executed in reverse order
+Default(library, generate_gdextension_file, copy_static_files_to_demo_folder)
