@@ -110,6 +110,27 @@ jobs:
           if-no-files-found: 'error'
           path: |
             demo/addons/tree3d/libtree3d.macos.*
+  Bundle-All-In-One-ZIP:
+    # wait for all binaries being created
+    needs: [Build-Linux, Build-Windows, Build-MacOS]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        godot_cpp_branch: ["4.0", "4.1", "4.2", "4.3"]
+    steps:
+      - name: download all created binaries for Godot ${{ matrix.godot_cpp_branch }}
+        uses: actions/download-artifact@v4
+        with:
+          path: demo/addons/tree3d/
+          pattern: ${{ format('binaries-*-godot{0}-*', matrix.godot_cpp_branch) }}
+          merge-multiple: true
+      - name: create addon archive for Godot ${{ matrix.godot_cpp_branch }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ format('tree3d-addon-godot{0}', matrix.godot_cpp_branch) }}
+          if-no-files-found: 'error'
+          path: |
+            demo/addons/tree3d/*
 
 # TODO create installable "ZIP" file and separate "demo" project ZIP
 # TODO add "android" and other platforms (if possible)
