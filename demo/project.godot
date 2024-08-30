@@ -10,9 +10,9 @@ config_version=5
 
 [application]
 
-config/name="Tree3D Demo"
+config/name="gdTree3D Demo"
 config/description="Author: Artyom Bozhko"
 config/version="0.5 beta"
 run/main_scene="res://tree_3d.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
-config/icon="res://addons/tree3d/ico/Tree3D.png"
+config/icon="res://addons/gdTree3D/ico/gdTree3D.png"
