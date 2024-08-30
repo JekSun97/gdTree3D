@@ -127,6 +127,8 @@ jobs:
           pattern: ${{ format('binaries-*-godot{0}-*', matrix.godot_cpp_branch) }}
           merge-multiple: true
       - run: |
+          ls
+          mkdir -p demo/addons/
           mv generated-binaries/* demo/addons/
       - name: create gdExtension ZIP for Godot ${{ matrix.godot_cpp_branch }}
         uses: actions/upload-artifact@v4
