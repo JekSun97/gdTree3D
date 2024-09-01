@@ -8,7 +8,7 @@ email = "jeksun2022@gmail.com"
 repo = "https://github.com/JekSun97/gdTree3D"
 
 [icons]
-gdTree3D = "res://addons/Tree3D/ico/Tree3D.png"
+Tree3D = "res://addons/Tree3D/ico/Tree3D.png"
 
 [configuration]
 entry_symbol = "tree3d_library_init"
