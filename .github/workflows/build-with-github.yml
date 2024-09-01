@@ -107,6 +107,7 @@ jobs:
           scons target=template_debug arch=x86_64
           scons target=template_release arch=x86_64
           # MacOS 64 bit (Apple Silicon/ARM)
+          scons -c
           scons target=template_debug arch=arm64
           scons target=template_release arch=arm64
           # create "Universal 2" files
