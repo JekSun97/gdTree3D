@@ -1,0 +1,186 @@
+name: Build With Github
+
+on:
+  push:
+    # build and bundle for every branch push
+    branches: ["*"]
+    # create github release when commit was marked via "git tag"
+    tags: ["v*"]
+
+jobs:
+  Build-Linux:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        godot_cpp_branch: ["4.0", "4.1", "4.2", "4.3"]
+        # do NOT compile CPU archs in one go, would result in corrupted DLL (probably due to file-resue of 32bit files in 64bit run)
+        target_arch: [x86_32, x86_64]
+    steps:
+      # clone current repo
+      - uses: actions/checkout@v4
+      # clone required Godot source code into subfolder
+      - uses: actions/checkout@v4
+        with:
+          repository: 'godotengine/godot-cpp'
+          ref: ${{ matrix.godot_cpp_branch }}
+          path: 'godot-cpp'
+          submodules: true
+      - name: create docker image for building our binaries
+        run: |
+          docker build -t tree3dbuilder:latest .
+      # compile binaries via our docker build image (linux)
+      # makes it easier to create Linux and Windows binaries on other systems more reliable
+      - name: build binaries
+        run: |
+          # linux 32 bit (x86)
+          docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_debug arch=${{ matrix.target_arch }}
+          docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_release arch=${{ matrix.target_arch }}
+      - name: archive built binaries (linux)
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ format('binaries-linux-godot{0}-{1}', matrix.godot_cpp_branch, matrix.target_arch) }}
+          if-no-files-found: 'error'
+          path: |
+            demo/addons/*
+  Build-Windows:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        godot_cpp_branch: ["4.0", "4.1", "4.2", "4.3"]
+        # do NOT compile CPU archs in one go, would result in corrupted DLL (probably due to file-resue of 32bit files in 64bit run)
+        target_arch: [x86_32, x86_64]
+    steps:
+      # clone current repo
+      - uses: actions/checkout@v4
+      # clone required Godot source code into subfolder
+      - uses: actions/checkout@v4
+        with:
+          repository: 'godotengine/godot-cpp'
+          ref: ${{ matrix.godot_cpp_branch }}
+          path: 'godot-cpp'
+          submodules: true
+      - name: create docker image for building our binaries
+        run: |
+          docker build -t tree3dbuilder:latest .
+      # compile binaries via our docker build image (windows)
+      # makes it easier to create Linux and Windows binaries on other systems more reliable
+      - name: build binaries
+        run: |
+          docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_debug arch=${{ matrix.target_arch }} platform=windows
+          docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_release arch=${{ matrix.target_arch }} platform=windows
+      - name: archive built binaries (windows)
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ format('binaries-windows-godot{0}-{1}', matrix.godot_cpp_branch, matrix.target_arch) }}
+          if-no-files-found: 'error'
+          path: |
+            demo/addons/*
+  Build-MacOS:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        godot_cpp_branch: ["4.0", "4.1", "4.2", "4.3"]
+    steps:
+      # clone current repo
+      - uses: actions/checkout@v4
+      # clone required Godot source code into subfolder
+      - uses: actions/checkout@v4
+        with:
+          repository: 'godotengine/godot-cpp'
+          ref: ${{ matrix.godot_cpp_branch }}
+          path: 'godot-cpp'
+          submodules: true
+      - name: install scons on macos
+        if: ${{ matrix.godot_cpp_branch != '4.0' }}
+        run: python -m pip install scons
+      # Godot 4.0 needs a specific version
+      # see https://github.com/godotengine/godot-cpp/issues/1518
+      # see https://github.com/godotengine/godot-cpp/pull/1526
+      - name: install older version of scons on macos
+        if: ${{ matrix.godot_cpp_branch == '4.0' }}
+        run: python -m pip install scons==4.7.0
+      # TODO we need to check if these binaries actually do work, as we lack any Apple Silicon device right now to check this
+      # TODO do we need to split CPU arch for MacOS too?
+      - name: build MacOS binaries
+        run: |
+          # MacOS 64 bit (x86)
+          scons target=template_debug arch=x86_64
+          scons target=template_release arch=x86_64
+          # MacOS 64 bit (Apple Silicon/ARM)
+          scons -c
+          scons target=template_debug arch=arm64
+          scons target=template_release arch=arm64
+          # create "Universal 2" files
+          lipo -create demo/addons/Tree3D/libTree3D.macos.template_release.arm64 demo/addons/Tree3D/libTree3D.macos.template_release.x86_64 -output demo/addons/Tree3D/libTree3D.macos.template_release.universal
+          lipo -create demo/addons/Tree3D/libTree3D.macos.template_debug.arm64 demo/addons/Tree3D/libTree3D.macos.template_debug.x86_64 -output demo/addons/Tree3D/libTree3D.macos.template_debug.universal
+      - name: archive built binaries (macos)
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ format('binaries-macos-godot{0}-universal', matrix.godot_cpp_branch) }}
+          if-no-files-found: 'error'
+          path: |
+            demo/addons/*
+  Bundle-All-In-One-ZIP:
+    # wait for all binaries being created
+    needs: [Build-Linux, Build-Windows, Build-MacOS]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        godot_cpp_branch: ["4.0", "4.1", "4.2", "4.3"]
+    steps:
+      # clone current repo
+      - uses: actions/checkout@v4
+      - name: download all created binaries for Godot ${{ matrix.godot_cpp_branch }}
+        uses: actions/download-artifact@v4
+        with:
+          path: generated-binaries
+          pattern: ${{ format('binaries-*-godot{0}-*', matrix.godot_cpp_branch) }}
+          merge-multiple: true
+      - name: move artifacts to their proper place
+        run: |
+          mkdir -p demo/addons/
+          mv generated-binaries/* demo/addons/
+      - name: create gdExtension ZIP for Godot ${{ matrix.godot_cpp_branch }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ format('Tree3D-addon-godot{0}', matrix.godot_cpp_branch) }}
+          if-no-files-found: 'error'
+          path: |
+            demo/addons/*
+      - name: create demo ZIP for Godot ${{ matrix.godot_cpp_branch }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ format('Tree3D-demo-project-godot{0}', matrix.godot_cpp_branch) }}
+          if-no-files-found: 'error'
+          path: |
+            demo/*
+  Create-Github-Draft-Release:
+    # wait for all binaries being created
+    needs: [Bundle-All-In-One-ZIP]
+    runs-on: ubuntu-latest
+    # only create when tagged
+    if: ${{ startsWith(github.ref, 'refs/tags/') }}
+    steps:
+      - name: Download All-In-One ZIP (addon)
+        uses: dawidd6/action-download-artifact@v6
+        with:
+          skip_unpack: true
+          name: Tree3D-addon-godot*
+          name_is_regexp: true
+      - name: Download All-In-One ZIP (demo project)
+        uses: dawidd6/action-download-artifact@v6
+        with:
+          skip_unpack: true
+          name: Tree3D-demo-project-godot*
+          name_is_regexp: true
+      - run: |
+          ls
+      - name: create draft release
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          files: |
+            *.zip
+
+# TODO add "android" and other platforms (if possible)
+# TODO add Windows ARM (when arm-mingw is usable from anywhere)

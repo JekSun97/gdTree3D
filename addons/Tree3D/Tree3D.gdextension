@@ -1,0 +1,27 @@
+[infomation]
+name = "Tree3D"
+# TODO generate version via SCons using git-tag inside Github Actions workflow
+version = "v0.71-dev"
+decription = "Plugin for procedural generation of 3D trees of varying complexity."
+author = "Artyom Bozhko (JekSun)"
+email = "jeksun2022@gmail.com"
+repo = "https://github.com/JekSun97/gdTree3D"
+
+[icons]
+Tree3D = "res://addons/Tree3D/ico/Tree3D.png"
+
+[configuration]
+entry_symbol = "tree3d_library_init"
+compatibility_minimum = "4.1"
+
+[libraries]
+macos.debug = "res://addons/Tree3D/libTree3D.macos.template_debug.universal"
+macos.release = "res://addons/Tree3D/libTree3D.macos.template_release.universal"
+windows.debug.x86_32 = "res://addons/Tree3D/libTree3D.windows.template_debug.x86_32.dll"
+windows.release.x86_32 = "res://addons/Tree3D/libTree3D.windows.template_release.x86_32.dll"
+windows.debug.x86_64 = "res://addons/Tree3D/libTree3D.windows.template_debug.x86_64.dll"
+windows.release.x86_64 = "res://addons/Tree3D/libTree3D.windows.template_release.x86_64.dll"
+linux.debug.x86_32 = "res://addons/Tree3D/libTree3D.linux.template_debug.x86_32.so"
+linux.release.x86_32 = "res://addons/Tree3D/libTree3D.linux.template_release.x86_32.so"
+linux.debug.x86_64 = "res://addons/Tree3D/libTree3D.linux.template_debug.x86_64.so"
+linux.release.x86_64 = "res://addons/Tree3D/libTree3D.linux.template_release.x86_64.so"
