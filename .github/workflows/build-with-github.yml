@@ -27,14 +27,14 @@ jobs:
           submodules: true
       - name: create docker image for building our binaries
         run: |
-          docker build -t gdtree3dbuilder:latest .
+          docker build -t tree3dbuilder:latest .
       # compile binaries via our docker build image (linux)
       # makes it easier to create Linux and Windows binaries on other systems more reliable
       - name: build binaries
         run: |
           # linux 32 bit (x86)
-          docker run --rm -v "$(pwd):/source" gdtree3dbuilder:latest scons target=template_debug arch=${{ matrix.target_arch }}
-          docker run --rm -v "$(pwd):/source" gdtree3dbuilder:latest scons target=template_release arch=${{ matrix.target_arch }}
+          docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_debug arch=${{ matrix.target_arch }}
+          docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_release arch=${{ matrix.target_arch }}
       - name: archive built binaries (linux)
         uses: actions/upload-artifact@v4
         with:
@@ -61,13 +61,13 @@ jobs:
           submodules: true
       - name: create docker image for building our binaries
         run: |
-          docker build -t gdtree3dbuilder:latest .
+          docker build -t tree3dbuilder:latest .
       # compile binaries via our docker build image (windows)
       # makes it easier to create Linux and Windows binaries on other systems more reliable
       - name: build binaries
         run: |
-          docker run --rm -v "$(pwd):/source" gdtree3dbuilder:latest scons target=template_debug arch=${{ matrix.target_arch }} platform=windows
-          docker run --rm -v "$(pwd):/source" gdtree3dbuilder:latest scons target=template_release arch=${{ matrix.target_arch }} platform=windows
+          docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_debug arch=${{ matrix.target_arch }} platform=windows
+          docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_release arch=${{ matrix.target_arch }} platform=windows
       - name: archive built binaries (windows)
         uses: actions/upload-artifact@v4
         with:
@@ -110,8 +110,8 @@ jobs:
           scons target=template_debug arch=arm64
           scons target=template_release arch=arm64
           # create "Universal 2" files
-          lipo -create demo/addons/gdTree3D/libgdTree3D.macos.template_release.arm64 demo/addons/gdTree3D/libgdTree3D.macos.template_release.x86_64 -output demo/addons/gdTree3D/libgdTree3D.macos.template_release.universal
-          lipo -create demo/addons/gdTree3D/libgdTree3D.macos.template_debug.arm64 demo/addons/gdTree3D/libgdTree3D.macos.template_debug.x86_64 -output demo/addons/gdTree3D/libgdTree3D.macos.template_debug.universal
+          lipo -create demo/addons/Tree3D/libTree3D.macos.template_release.arm64 demo/addons/Tree3D/libTree3D.macos.template_release.x86_64 -output demo/addons/Tree3D/libTree3D.macos.template_release.universal
+          lipo -create demo/addons/Tree3D/libTree3D.macos.template_debug.arm64 demo/addons/Tree3D/libTree3D.macos.template_debug.x86_64 -output demo/addons/Tree3D/libTree3D.macos.template_debug.universal
       - name: archive built binaries (macos)
         uses: actions/upload-artifact@v4
         with:
@@ -142,14 +142,14 @@ jobs:
       - name: create gdExtension ZIP for Godot ${{ matrix.godot_cpp_branch }}
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ format('gdTree3D-addon-godot{0}', matrix.godot_cpp_branch) }}
+          name: ${{ format('Tree3D-addon-godot{0}', matrix.godot_cpp_branch) }}
           if-no-files-found: 'error'
           path: |
             demo/addons/*
       - name: create demo ZIP for Godot ${{ matrix.godot_cpp_branch }}
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ format('gdTree3D-demo-project-godot{0}', matrix.godot_cpp_branch) }}
+          name: ${{ format('Tree3D-demo-project-godot{0}', matrix.godot_cpp_branch) }}
           if-no-files-found: 'error'
           path: |
             demo/*
@@ -164,13 +164,13 @@ jobs:
         uses: dawidd6/action-download-artifact@v6
         with:
           skip_unpack: true
-          name: gdTree3D-addon-godot*
+          name: Tree3D-addon-godot*
           name_is_regexp: true
       - name: Download All-In-One ZIP (demo project)
         uses: dawidd6/action-download-artifact@v6
         with:
           skip_unpack: true
-          name: gdTree3D-demo-project-godot*
+          name: Tree3D-demo-project-godot*
           name_is_regexp: true
       - run: |
           ls

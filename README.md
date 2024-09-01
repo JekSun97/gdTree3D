@@ -1,7 +1,7 @@
-# gdTree3D
+# Tree3D
 Plugin for procedural generation of 3D trees of varying complexity.
 
-<img src="image/gdTree3D.png">
+<img src="image/Tree3D.png">
 
 ## Supported Godot Engine Versions
 - Godot 4.0
@@ -29,8 +29,8 @@ Or use [ready-made libraries](https://github.com/JekSun97/gdTree3D/releases)
 For easier reproducibility, there is a Dockerfile provided for building binaries for Linux and Windows.
 
 ```sh
-docker build -t gdtree3dbuilder:latest .
-docker run --rm -v "$(pwd):/source" gdtree3dbuilder:latest scons target=template_release arch=x86_64 platform=windows
+docker build -t tree3dbuilder:latest .
+docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_release arch=x86_64 platform=windows
 ```
 
 ## Donations

@@ -16,12 +16,12 @@ env = SConscript("godot-cpp/SConstruct")
 env.Append(CPPPATH=["src/"])
 sources = Glob("src/*.cpp")
 
-# the filename "libgdTree3D" results from the prefix "lib*", which (somehow) gets defined from "godot-cpp"
-targetLibraryFileOutput = "demo/addons/gdTree3D/libgdTree3D{}{}".format(env["suffix"], env["SHLIBSUFFIX"])
+# the filename "libTree3D" results from the prefix "lib*", which (somehow) gets defined from "godot-cpp"
+targetLibraryFileOutput = "demo/addons/Tree3D/libTree3D{}{}".format(env["suffix"], env["SHLIBSUFFIX"])
 
 # on MacOS we need use different filename parameters
 if env["platform"] == "macos":
-    targetLibraryFileOutput = "demo/addons/gdTree3D/libgdTree3D.{}.{}.{}".format(
+    targetLibraryFileOutput = "demo/addons/Tree3D/libTree3D.{}.{}.{}".format(
         env["platform"], env["target"], env["arch"]
     )
 
@@ -44,7 +44,7 @@ if not os.path.isfile("godot-cpp/pyproject.toml"):
     version_replacement_dict = {'compatibility_minimum = "4.1"': 'compatibility_minimum = "4.0"'}
 
 # always generate .gdextension file (as we need to replace stuff there)
-generate_gdextension_file = env.Substfile(source = 'addons/gdTree3D/gdTree3D.gdextension', target = 'demo/addons/gdTree3D/gdTree3D.gdextension', SUBST_DICT = version_replacement_dict)
+generate_gdextension_file = env.Substfile(source = 'addons/Tree3D/Tree3D.gdextension', target = 'demo/addons/Tree3D/Tree3D.gdextension', SUBST_DICT = version_replacement_dict)
 
 library = env.SharedLibrary(
     targetLibraryFileOutput,
