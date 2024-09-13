@@ -40,5 +40,6 @@ Your name and your GitHub account (if you have one) will be listed below :)
 
 **List:**
 - Meier Lukas
+- Adam Heinermann (@Heinermann)
 
 Thank you for your support!
