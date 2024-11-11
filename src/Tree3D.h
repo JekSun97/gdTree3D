@@ -25,7 +25,6 @@ private:
 	void UpdateMeshTrunk();
 	void UpdateMeshTwig();
 	void UpdateAllMeshes();
-	bool _twig_enable = true;
 
 protected:
 	static void _bind_methods();
@@ -35,7 +34,6 @@ public:
 	~Tree3D();
 
 	void _process(double delta) override;
-	void _exit_tree() override;
 
 	void set_seed(int seed);
 	int get_seed();
@@ -84,7 +82,7 @@ public:
 	float get_uv_multiplier() const;
 	
 	void set_twig_enable(bool value);
-	bool get_twig_enable();
+	bool is_twig_enable();
 	void set_twig_scale(float value);
 	float get_twig_scale();
 
