@@ -88,18 +88,38 @@ void Tree3D::_bind_methods() {
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "material_twig", PROPERTY_HINT_RESOURCE_TYPE, "StandardMaterial3D,ORMMaterial3D,ShaderMaterial"), "set_material_twig", "get_material_twig");
 }
 
+// HACK!! To fix duplication issue before Godot 4.3.
+static const StringName get_hack_meta_identifier(){
+	static StringName ret = "_Tree3DHackOwner_";
+	return ret;
+}
+
 Tree3D::Tree3D() {
 	trunk_inst = memnew(MeshInstance3D);
 	twig_inst = memnew(MeshInstance3D);	
 	this->add_child(trunk_inst);
 	this->add_child(twig_inst);
 	UpdateAllMeshes();
-	//godot::UtilityFunctions::print("Tree3D Init");
-	
+
+	// HACK!! To fix duplication issue before Godot 4.3.
+	trunk_inst->set_meta(get_hack_meta_identifier(), this);
+	twig_inst->set_meta(get_hack_meta_identifier(), this);
 }
 
 Tree3D::~Tree3D() {
 	// Add your cleanup here.
+}
+
+void Tree3D::_enter_tree() {
+	// HACK!! To fix duplication issue before Godot 4.3.
+	TypedArray<Node> children = get_children(true);
+	for (int i =0; i < children.size(); ++i) {
+		Node *node = cast_to<MeshInstance3D>(children[i]);
+		if (node->has_meta(get_hack_meta_identifier()) && cast_to<Node>(node->get_meta(get_hack_meta_identifier())) != this) {
+			remove_child(node);
+			node->queue_free();
+		}
+	}
 }
 
 void Tree3D::_process(double delta) {
