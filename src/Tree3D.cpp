@@ -47,7 +47,7 @@ void Tree3D::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_uv_multiplier"), &Tree3D::get_uv_multiplier);
 	
 	ClassDB::bind_method(D_METHOD("set_twig_enable", "enable"), &Tree3D::set_twig_enable);
-	ClassDB::bind_method(D_METHOD("is_twig_enable"), &Tree3D::is_twig_enable);
+	ClassDB::bind_method(D_METHOD("get_twig_enable"), &Tree3D::get_twig_enable);
 	ClassDB::bind_method(D_METHOD("set_twig_scale", "scale"), &Tree3D::set_twig_scale);
 	ClassDB::bind_method(D_METHOD("get_twig_scale"), &Tree3D::get_twig_scale);
 	
@@ -80,7 +80,7 @@ void Tree3D::_bind_methods() {
 	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "trunk_uv_multiplier", PROPERTY_HINT_RANGE, "0.001,50,0.001"), "set_uv_multiplier", "get_uv_multiplier");
 	
 	ADD_GROUP("Twig", "twig_");
-	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "twig_enable"), "set_twig_enable", "is_twig_enable");
+	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "twig_enable"), "set_twig_enable", "get_twig_enable");
 	ClassDB::add_property("Tree3D", PropertyInfo(Variant::FLOAT, "twig_scale", PROPERTY_HINT_RANGE, "0,5,0.001"), "set_twig_scale", "get_twig_scale");
 	
 	ADD_GROUP("Materials", "material_");
@@ -104,6 +104,19 @@ Tree3D::~Tree3D() {
 
 void Tree3D::_process(double delta) {
 }
+
+void Tree3D::_exit_tree() {
+	//godot::UtilityFunctions::print("Tree3D exit");
+	remove_child(trunk_inst);
+	trunk_inst=nullptr;
+	if(twig_inst)
+	{
+	remove_child(twig_inst);
+	twig_inst=nullptr;
+	}
+	
+}
+
 
 void Tree3D::set_seed(int seed) {
 tree.mProperties.mSeed = seed;
@@ -157,18 +170,24 @@ float Tree3D::get_twig_scale() {
 }
 
 void Tree3D::set_twig_enable(bool value) {
-	ERR_FAIL_NULL(twig_inst);
-	twig_inst->set_visible(value);
 	if (value)
 	{
+	twig_inst = memnew(MeshInstance3D);	
+	this->add_child(twig_inst);
 	tree.generate();
 	UpdateMeshTwig();
 	}
+	else
+	{
+		remove_child(twig_inst);
+		twig_inst=nullptr;
+	}
+	_twig_enable=value;
+//twig_inst->set_visible(value);
 }	
 
-bool Tree3D::is_twig_enable() {
-	ERR_FAIL_NULL_V(twig_inst, false);
-	return twig_inst->is_visible();
+bool Tree3D::get_twig_enable() {
+	return _twig_enable;
 }
 
 
@@ -336,13 +355,25 @@ Ref<Material> Tree3D::get_material_trunk() {
 }
 
 void Tree3D::set_material_twig(const Ref<Material> &mat) {
-	ERR_FAIL_NULL(twig_inst);
+	if (twig_inst)
+	{
 	twig_inst->set_surface_override_material(0,mat);
+	}
+	else
+	{
+		return;
+	}
 }	
 
 Ref<Material> Tree3D::get_material_twig() {
-	ERR_FAIL_NULL_V(twig_inst, nullptr);
+	if (twig_inst)
+	{
 	return twig_inst->get_surface_override_material(0);
+	}
+	else
+	{
+		return nullptr;
+	}
 }
 
 
@@ -376,7 +407,8 @@ void Tree3D::UpdateMeshTrunk()
 
 void Tree3D::UpdateMeshTwig()
 {
-	ERR_FAIL_NULL(twig_inst);
+	if (twig_inst)
+	{
 	Ref<SurfaceTool> st;
 	st.instantiate();
 	st->begin(Mesh::PRIMITIVE_TRIANGLES);
@@ -395,13 +427,17 @@ void Tree3D::UpdateMeshTwig()
 	}
 	st->optimize_indices_for_cache();
 	twig_inst->set_mesh(st->commit());
+	}
+	else
+	{
+		return;
+	}
+	
 }
 
 void Tree3D::UpdateAllMeshes() {
 	tree.generate();
 	UpdateMeshTrunk();
-	if (is_twig_enable()) {
 	UpdateMeshTwig();
-	}
 }
 
