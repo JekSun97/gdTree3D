@@ -34,6 +34,7 @@ public:
 	Tree3D();
 	~Tree3D();
 
+	void _enter_tree() override;
 	void _process(double delta) override;
 	void _exit_tree() override;
 
