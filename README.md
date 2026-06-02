@@ -4,10 +4,7 @@ Plugin for procedural generation of 3D trees of varying complexity.
 <img src="image/Tree3D.png">
 
 ## Supported Godot Engine Versions
-- Godot 4.0
-- Godot 4.1
-- Godot 4.2
-- Godot 4.3
+- Godot 4.5+
 
 <img src="image/preview.png">
 
