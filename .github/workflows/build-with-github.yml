@@ -1,5 +1,8 @@
 name: Build With Github
 
+permissions:
+  contents: write
+
 on:
   push:
     # build and bundle for every branch push
