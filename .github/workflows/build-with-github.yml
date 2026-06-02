@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        godot_cpp_branch: ["4.0", "4.1", "4.2", "4.3"]
+        godot_cpp_branch: ["4.5", "4.6"]
         # do NOT compile CPU archs in one go, would result in corrupted DLL (probably due to file-resue of 32bit files in 64bit run)
         target_arch: [x86_32, x86_64]
     steps:
@@ -42,11 +42,12 @@ jobs:
           if-no-files-found: 'error'
           path: |
             demo/addons/*
+
   Build-Windows:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        godot_cpp_branch: ["4.0", "4.1", "4.2", "4.3"]
+        godot_cpp_branch: ["4.5", "4.6"]
         # do NOT compile CPU archs in one go, would result in corrupted DLL (probably due to file-resue of 32bit files in 64bit run)
         target_arch: [x86_32, x86_64]
     steps:
@@ -75,11 +76,12 @@ jobs:
           if-no-files-found: 'error'
           path: |
             demo/addons/*
+
   Build-MacOS:
     runs-on: macos-latest
     strategy:
       matrix:
-        godot_cpp_branch: ["4.0", "4.1", "4.2", "4.3"]
+        godot_cpp_branch: ["4.5", "4.6"]
     steps:
       # clone current repo
       - uses: actions/checkout@v4
@@ -91,15 +93,8 @@ jobs:
           path: 'godot-cpp'
           submodules: true
       - name: install scons on macos
-        if: ${{ matrix.godot_cpp_branch != '4.0' }}
         run: python -m pip install scons
-      # Godot 4.0 needs a specific version
-      # see https://github.com/godotengine/godot-cpp/issues/1518
-      # see https://github.com/godotengine/godot-cpp/pull/1526
-      - name: install older version of scons on macos
-        if: ${{ matrix.godot_cpp_branch == '4.0' }}
-        run: python -m pip install scons==4.7.0
-      # TODO we need to check if these binaries actually do work, as we lack any Apple Silicon device right now to check this
+      # TODO we need to check if these binaries actually do work, as we lack any Apple Silicon device to check this
       # TODO do we need to split CPU arch for MacOS too?
       - name: build MacOS binaries
         run: |
@@ -120,13 +115,14 @@ jobs:
           if-no-files-found: 'error'
           path: |
             demo/addons/*
+
   Bundle-All-In-One-ZIP:
     # wait for all binaries being created
     needs: [Build-Linux, Build-Windows, Build-MacOS]
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        godot_cpp_branch: ["4.0", "4.1", "4.2", "4.3"]
+        godot_cpp_branch: ["4.5", "4.6"]
     steps:
       # clone current repo
       - uses: actions/checkout@v4
@@ -154,6 +150,7 @@ jobs:
           if-no-files-found: 'error'
           path: |
             demo/*
+
   Create-Github-Draft-Release:
     # wait for all binaries being created
     needs: [Bundle-All-In-One-ZIP]
