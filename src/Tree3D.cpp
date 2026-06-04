@@ -56,6 +56,11 @@ void Tree3D::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_material_twig", "material"), &Tree3D::set_material_twig);
 	ClassDB::bind_method(D_METHOD("get_material_twig"), &Tree3D::get_material_twig);
 	
+	ClassDB::bind_method(D_METHOD("set_collision_enabled", "enabled"), &Tree3D::set_collision_enabled);
+	ClassDB::bind_method(D_METHOD("get_collision_enabled"), &Tree3D::get_collision_enabled);
+	ClassDB::bind_method(D_METHOD("set_collision_type", "type"), &Tree3D::set_collision_type);
+	ClassDB::bind_method(D_METHOD("get_collision_type"), &Tree3D::get_collision_type);
+	
 	
 	ClassDB::add_property("Tree3D", PropertyInfo(Variant::INT, "seed", PROPERTY_HINT_RANGE, "0,100000,1"), "set_seed", "get_seed");
 	
@@ -86,6 +91,10 @@ void Tree3D::_bind_methods() {
 	ADD_GROUP("Materials", "material_");
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "material_trunk", PROPERTY_HINT_RESOURCE_TYPE, "StandardMaterial3D,ORMMaterial3D,ShaderMaterial"), "set_material_trunk", "get_material_trunk");
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "material_twig", PROPERTY_HINT_RESOURCE_TYPE, "StandardMaterial3D,ORMMaterial3D,ShaderMaterial"), "set_material_twig", "get_material_twig");
+	
+	ADD_GROUP("Collision", "collision_");
+	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "collision_enabled"), "set_collision_enabled", "get_collision_enabled");
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "collision_type", PROPERTY_HINT_ENUM, "Fast (Cylinder),Accurate (Concave Mesh)"), "set_collision_type", "get_collision_type");
 }
 
 
@@ -374,6 +383,24 @@ Ref<Material> Tree3D::get_material_twig() {
 }
 
 
+void Tree3D::set_collision_enabled(bool value) {
+	_collision_enabled = value;
+	if (value) 
+	{
+		UpdateCollision();
+	}
+	else 
+	{
+		RemoveCollision();
+	}
+}
+bool Tree3D::get_collision_enabled() { return _collision_enabled; }
+
+void Tree3D::set_collision_type(int value) {
+	_collision_type = value;
+	if (_collision_enabled) UpdateCollision();
+}
+int Tree3D::get_collision_type() { return _collision_type; }
 
 
 void Tree3D::UpdateMeshTrunk()
@@ -399,6 +426,7 @@ void Tree3D::UpdateMeshTrunk()
 	trunk_inst->set_mesh(st->commit());
 	st->clear();
 	
+	UpdateCollision();
 }
 
 
@@ -438,3 +466,81 @@ void Tree3D::UpdateAllMeshes() {
 	UpdateMeshTwig();
 }
 
+
+void Tree3D::UpdateCollision() {
+	if (!_collision_enabled) return;
+	RemoveCollision();
+	if (_collision_type == 0) 
+	{
+		CreateFastCollision();
+	}
+	else {
+		CreateAccurateCollision();
+	}
+}
+
+void Tree3D::CreateFastCollision() {
+	collision_body = memnew(StaticBody3D);
+	collision_body->set_name("CollisionBody");
+	this->add_child(collision_body, false, Node::INTERNAL_MODE_FRONT);
+	
+	CollisionShape3D *shape = memnew(CollisionShape3D);
+	shape->set_name("CylinderCollision");
+	collision_body->add_child(shape);
+	
+	Ref<CylinderShape3D> cylinder;
+	cylinder.instantiate();
+	
+	if (trunk_inst && trunk_inst->get_mesh().is_valid()) {
+		AABB aabb = trunk_inst->get_mesh()->get_aabb();
+		float height = aabb.size.y;
+		float radius = tree.mProperties.mMaxRadius;
+		cylinder->set_height(height);
+		cylinder->set_radius(radius);
+		shape->set_position(aabb.get_center());
+	} else {
+		cylinder->set_height(1.0);
+		cylinder->set_radius(0.1);
+		shape->set_position(Vector3(0, 0.5, 0));
+	}
+	shape->set_shape(cylinder);
+}
+
+void Tree3D::CreateAccurateCollision() {
+	collision_body = memnew(StaticBody3D);
+	collision_body->set_name("CollisionBody");
+	this->add_child(collision_body, false, Node::INTERNAL_MODE_FRONT);
+	
+	CollisionShape3D *shape_node = memnew(CollisionShape3D);
+	shape_node->set_name("ConcaveCollision");
+	collision_body->add_child(shape_node);
+	
+	Ref<ConcavePolygonShape3D> concave_shape;
+	concave_shape.instantiate();
+
+	PackedVector3Array faces;
+
+	for (int i = 0; i < tree.mFaceCount; i++) {
+		faces.push_back(Vector3(tree.mVert[tree.mFace[i].x].x, tree.mVert[tree.mFace[i].x].y, tree.mVert[tree.mFace[i].x].z));
+		faces.push_back(Vector3(tree.mVert[tree.mFace[i].y].x, tree.mVert[tree.mFace[i].y].y, tree.mVert[tree.mFace[i].y].z));
+		faces.push_back(Vector3(tree.mVert[tree.mFace[i].z].x, tree.mVert[tree.mFace[i].z].y, tree.mVert[tree.mFace[i].z].z));
+	}
+
+	if (_twig_enable && twig_inst) {
+		for (int i = 0; i < tree.mTwigFaceCount; i++) {
+			faces.push_back(Vector3(tree.mTwigVert[tree.mTwigFace[i].x].x, tree.mTwigVert[tree.mTwigFace[i].x].y, tree.mTwigVert[tree.mTwigFace[i].x].z));
+			faces.push_back(Vector3(tree.mTwigVert[tree.mTwigFace[i].y].x, tree.mTwigVert[tree.mTwigFace[i].y].y, tree.mTwigVert[tree.mTwigFace[i].y].z));
+			faces.push_back(Vector3(tree.mTwigVert[tree.mTwigFace[i].z].x, tree.mTwigVert[tree.mTwigFace[i].z].y, tree.mTwigVert[tree.mTwigFace[i].z].z));
+		}
+	}
+
+	concave_shape->set_faces(faces);
+	shape_node->set_shape(concave_shape);
+}
+
+void Tree3D::RemoveCollision() {
+	if (collision_body) {
+		collision_body->queue_free();
+		collision_body = nullptr;
+	}
+}
