@@ -10,6 +10,10 @@
 #include <godot_cpp/classes/standard_material3d.hpp>
 #include <godot_cpp/classes/orm_material3d.hpp>
 #include <godot_cpp/classes/shader_material.hpp>
+#include <godot_cpp/classes/static_body3d.hpp>
+#include <godot_cpp/classes/collision_shape3d.hpp>
+#include <godot_cpp/classes/cylinder_shape3d.hpp>
+#include <godot_cpp/classes/concave_polygon_shape3d.hpp>
 #include <proctree.h>
 
 namespace godot {
@@ -21,11 +25,18 @@ private:
 	Proctree::Tree tree;
 	MeshInstance3D *trunk_inst = nullptr;
 	MeshInstance3D *twig_inst = nullptr;
+	StaticBody3D *collision_body = nullptr;
 	
 	void UpdateMeshTrunk();
 	void UpdateMeshTwig();
 	void UpdateAllMeshes();
+	void UpdateCollision();
+	void CreateFastCollision();
+	void CreateAccurateCollision();
+	void RemoveCollision();
 	bool _twig_enable = true;
+	bool _collision_enabled = false;
+	int _collision_type = 0; // 0 = fast (cylinder), 1 = accurate (concave)
 
 protected:
 	static void _bind_methods();
@@ -88,6 +99,11 @@ public:
 	bool get_twig_enable();
 	void set_twig_scale(float value);
 	float get_twig_scale();
+	
+	void set_collision_enabled(bool value);
+	bool get_collision_enabled();
+	void set_collision_type(int value);
+	int get_collision_type();
 
 };
 }
