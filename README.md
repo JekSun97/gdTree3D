@@ -30,7 +30,6 @@ scons target=template_release platform=windows
 ```
 Or use [ready-made libraries](https://github.com/JekSun97/gdTree3D/releases)
 
-Remove unnecessary comments in the `Tree3D.gdextension` file in the "libraries" section to enable support for the platform you need.
 
 ## Using Docker to build this GDExtension
 
