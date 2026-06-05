@@ -526,13 +526,13 @@ void Tree3D::CreateAccurateCollision() {
 		faces.push_back(Vector3(tree.mVert[tree.mFace[i].z].x, tree.mVert[tree.mFace[i].z].y, tree.mVert[tree.mFace[i].z].z));
 	}
 
-	if (_twig_enable && twig_inst) {
+	/*if (_twig_enable && twig_inst) {
 		for (int i = 0; i < tree.mTwigFaceCount; i++) {
 			faces.push_back(Vector3(tree.mTwigVert[tree.mTwigFace[i].x].x, tree.mTwigVert[tree.mTwigFace[i].x].y, tree.mTwigVert[tree.mTwigFace[i].x].z));
 			faces.push_back(Vector3(tree.mTwigVert[tree.mTwigFace[i].y].x, tree.mTwigVert[tree.mTwigFace[i].y].y, tree.mTwigVert[tree.mTwigFace[i].y].z));
 			faces.push_back(Vector3(tree.mTwigVert[tree.mTwigFace[i].z].x, tree.mTwigVert[tree.mTwigFace[i].z].y, tree.mTwigVert[tree.mTwigFace[i].z].z));
 		}
-	}
+	}*/
 
 	concave_shape->set_faces(faces);
 	shape_node->set_shape(concave_shape);
