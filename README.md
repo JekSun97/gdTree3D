@@ -3,6 +3,9 @@ Plugin for procedural generation of 3D trees of varying complexity.
 
 <img src="image/Tree3D.png">
 
+[![Godot Engine](https://img.shields.io/badge/Godot-4.x-%23478cbf?logo=godot-engine&logoColor=white)](https://godotengine.org)
+[![Ko-Fi](https://img.shields.io/badge/Support-Ko--Fi-%23FF5E5B?logo=ko-fi&logoColor=white)](https://ko-fi.com/jeksun)
+
 ## Possibilities
 - Procedural tree generation. Control the height, slope, number of branches, branch length, gravity, twist, and detail.
 - Turn leaves on or off depending on the season, plant size and material.
