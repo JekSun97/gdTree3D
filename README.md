@@ -13,7 +13,7 @@ Plugin for procedural generation of 3D trees of varying complexity.
 - Create procedural tree growth from a sapling to a large mature tree using code.
 
 ## Supported Godot Engine Versions
-- Godot 4.5+
+- Godot 4.5+ (Windows, Linux, MacOS)
 
 <img src="image/preview.png">
 
