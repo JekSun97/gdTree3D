@@ -1,7 +1,7 @@
 [infomation]
 name = "Tree3D"
 # TODO generate version via SCons using git-tag inside Github Actions workflow
-version = "v0.8"
+version = "v0.91"
 decription = "Plugin for procedural generation of 3D trees of varying complexity."
 author = "Artyom Bozhko (JekSun97)"
 email = "jeksun2022@gmail.com"
