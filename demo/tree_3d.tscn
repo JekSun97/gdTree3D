@@ -1,11 +1,14 @@
-[gd_scene load_steps=21 format=3 uid="uid://duc1c18y8ooso"]
+[gd_scene format=3 uid="uid://duc1c18y8ooso"]
 
-[ext_resource type="Texture2D" uid="uid://nr4ank2txgsq" path="res://grass.png" id="3_kejuy"]
+[ext_resource type="Texture2D" uid="uid://mm7knhxrqom6" path="res://grass.png" id="3_kejuy"]
 [ext_resource type="Material" uid="uid://67ujeeqcjmgj" path="res://trunk_mat.tres" id="3_vb27k"]
-[ext_resource type="Material" uid="uid://7hn25igvds42" path="res://twig_mat.tres" id="4_ml0j2"]
-[ext_resource type="Texture2D" uid="uid://q451bajbg2ux" path="res://Branches1.png" id="5_siv04"]
-[ext_resource type="Texture2D" uid="uid://b53r5ww4ciutq" path="res://Branches2.png" id="6_6tr7v"]
-[ext_resource type="Texture2D" uid="uid://da1g8f5uas1jp" path="res://Branches3.png" id="7_76wn7"]
+[ext_resource type="Texture2D" uid="uid://b6rpod6ne868j" path="res://Branches1.png" id="5_siv04"]
+[ext_resource type="Texture2D" uid="uid://dvv86x1lj0rdj" path="res://Branches2.png" id="6_6tr7v"]
+[ext_resource type="Shader" uid="uid://c7vrpwaspknbt" path="res://addons/Tree3D/Materials/Tree3DUniversalMaterial.gdshader" id="6_e2bpf"]
+[ext_resource type="Texture2D" uid="uid://c1w2l4pyoy433" path="res://Branches3.png" id="7_76wn7"]
+[ext_resource type="Texture2D" uid="uid://cj1bch3bd4y66" path="res://bark.jpg" id="7_xkb33"]
+[ext_resource type="Texture2D" uid="uid://6avsei2gxmae" path="res://bark_normal.png" id="8_ilkb4"]
+[ext_resource type="Texture2D" uid="uid://b5lgdg51eybjh" path="res://twig.png" id="10_xkb33"]
 
 [sub_resource type="GDScript" id="GDScript_83sgd"]
 script/source = "extends DirectionalLight3D
@@ -24,37 +27,199 @@ disable_ambient_light = true
 albedo_texture = ExtResource("3_kejuy")
 uv1_scale = Vector3(24, 24, 24)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7v4ki"]
-transparency = 4
-albedo_texture = ExtResource("5_siv04")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q3p5c"]
+render_priority = 0
+shader = ExtResource("6_e2bpf")
+shader_parameter/texture_albedo = ExtResource("7_xkb33")
+shader_parameter/normal_strength = 0.0
+shader_parameter/metallic = 0.0
+shader_parameter/roughness = 0.9
+shader_parameter/tint_color = Color(1, 1, 1, 1)
+shader_parameter/tint_strength = 1.0
+shader_parameter/sway_speed = 1.0000000475
+shader_parameter/sway_strength = 0.1690000080275
+shader_parameter/sway_phase_len = 2.0
+shader_parameter/wind_direction = Vector3(1, 0, 0.5)
+shader_parameter/flutter_strength = 0.0
+shader_parameter/debug_vertex_colors = false
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jcgol"]
-transparency = 2
-alpha_scissor_threshold = 0.612
-alpha_antialiasing_mode = 0
-albedo_texture = ExtResource("5_siv04")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lyk1u"]
+render_priority = 0
+shader = ExtResource("6_e2bpf")
+shader_parameter/texture_albedo = ExtResource("10_xkb33")
+shader_parameter/normal_strength = 0.0
+shader_parameter/metallic = 0.134000006365
+shader_parameter/roughness = 1.0
+shader_parameter/tint_color = Color(1, 1, 1, 1)
+shader_parameter/tint_strength = 1.0
+shader_parameter/sway_speed = 1.0000000475
+shader_parameter/sway_strength = 0.1690000080275
+shader_parameter/sway_phase_len = 2.0
+shader_parameter/wind_direction = Vector3(1, 0, 0.5)
+shader_parameter/flutter_strength = 0.0400000019
+shader_parameter/debug_vertex_colors = false
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4uu2h"]
-transparency = 2
-alpha_scissor_threshold = 0.624
-alpha_antialiasing_mode = 0
-albedo_texture = ExtResource("6_6tr7v")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7tfm1"]
+render_priority = 0
+shader = ExtResource("6_e2bpf")
+shader_parameter/texture_albedo = ExtResource("7_xkb33")
+shader_parameter/normal_strength = 1.0
+shader_parameter/metallic = 0.0
+shader_parameter/roughness = 0.9
+shader_parameter/tint_color = Color(1, 1, 1, 1)
+shader_parameter/tint_strength = 1.0
+shader_parameter/sway_speed = 0.800000038
+shader_parameter/sway_strength = 0.0790000037525
+shader_parameter/sway_phase_len = 7.5910003605725
+shader_parameter/wind_direction = Vector3(1, 0, 0.5)
+shader_parameter/flutter_strength = 0.0
+shader_parameter/debug_vertex_colors = false
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6nnmw"]
-transparency = 4
-cull_mode = 2
-albedo_color = Color(0.908971, 0.60999, 0.260339, 1)
-albedo_texture = ExtResource("7_76wn7")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pb46e"]
+render_priority = 0
+shader = ExtResource("6_e2bpf")
+shader_parameter/texture_albedo = ExtResource("5_siv04")
+shader_parameter/normal_strength = 1.0
+shader_parameter/metallic = 0.0
+shader_parameter/roughness = 0.9
+shader_parameter/tint_color = Color(1, 1, 1, 1)
+shader_parameter/tint_strength = 1.0
+shader_parameter/sway_speed = 0.800000038
+shader_parameter/sway_strength = 0.0790000037525
+shader_parameter/sway_phase_len = 7.5910003605725
+shader_parameter/wind_direction = Vector3(1, 0, 0.5)
+shader_parameter/flutter_strength = 0.094000004465
+shader_parameter/debug_vertex_colors = false
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lr3b5"]
-transparency = 2
-alpha_scissor_threshold = 0.244
-alpha_antialiasing_mode = 0
-cull_mode = 2
-shading_mode = 2
-specular_mode = 2
-albedo_color = Color(1, 0.529188, 0.213411, 1)
-albedo_texture = ExtResource("7_76wn7")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_oit25"]
+render_priority = 0
+shader = ExtResource("6_e2bpf")
+shader_parameter/texture_albedo = ExtResource("10_xkb33")
+shader_parameter/normal_strength = 0.0
+shader_parameter/metallic = 0.0
+shader_parameter/roughness = 1.0
+shader_parameter/tint_color = Color(1, 1, 1, 1)
+shader_parameter/tint_strength = 1.0
+shader_parameter/sway_speed = 1.0000000475
+shader_parameter/sway_strength = 0.0630000029925
+shader_parameter/sway_phase_len = 2.394000113715
+shader_parameter/wind_direction = Vector3(1, 0, 0.5)
+shader_parameter/flutter_strength = 0.0090000004275
+shader_parameter/debug_vertex_colors = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xkb33"]
+render_priority = 0
+shader = ExtResource("6_e2bpf")
+shader_parameter/texture_albedo = ExtResource("7_xkb33")
+shader_parameter/normal_strength = 1.0
+shader_parameter/metallic = 0.0
+shader_parameter/roughness = 0.9
+shader_parameter/tint_color = Color(1, 1, 1, 1)
+shader_parameter/tint_strength = 0.0
+shader_parameter/sway_speed = 1.7450000828875
+shader_parameter/sway_strength = 0.25200001197
+shader_parameter/sway_phase_len = 2.6770001271575
+shader_parameter/wind_direction = Vector3(1, 0, 0.5)
+shader_parameter/flutter_strength = 0.07200000342
+shader_parameter/debug_vertex_colors = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hbhtp"]
+render_priority = 0
+shader = ExtResource("6_e2bpf")
+shader_parameter/texture_albedo = ExtResource("5_siv04")
+shader_parameter/normal_strength = 0.0
+shader_parameter/metallic = 0.0
+shader_parameter/roughness = 1.0
+shader_parameter/tint_color = Color(1, 1, 1, 1)
+shader_parameter/tint_strength = 0.0
+shader_parameter/sway_speed = 1.7450000828875
+shader_parameter/sway_strength = 0.25200001197
+shader_parameter/sway_phase_len = 2.6770001271575
+shader_parameter/wind_direction = Vector3(1, 0, 0.5)
+shader_parameter/flutter_strength = 0.07200000342
+shader_parameter/debug_vertex_colors = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e2bpf"]
+render_priority = 0
+shader = ExtResource("6_e2bpf")
+shader_parameter/texture_albedo = ExtResource("6_6tr7v")
+shader_parameter/normal_strength = 1.0
+shader_parameter/metallic = 0.0
+shader_parameter/roughness = 0.9
+shader_parameter/tint_color = Color(1, 1, 1, 1)
+shader_parameter/tint_strength = 1.0
+shader_parameter/sway_speed = 1.0000000475
+shader_parameter/sway_strength = 0.138000006555
+shader_parameter/sway_phase_len = 0.0
+shader_parameter/wind_direction = Vector3(1, 0, 0.5)
+shader_parameter/flutter_strength = 0.08
+shader_parameter/debug_vertex_colors = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_chj2x"]
+render_priority = 0
+shader = ExtResource("6_e2bpf")
+shader_parameter/texture_albedo = ExtResource("7_xkb33")
+shader_parameter/texture_normal = ExtResource("8_ilkb4")
+shader_parameter/normal_strength = 1.0
+shader_parameter/metallic = 0.0
+shader_parameter/roughness = 0.9
+shader_parameter/tint_color = Color(1, 1, 1, 1)
+shader_parameter/tint_strength = 1.0
+shader_parameter/sway_speed = 1.0000000475
+shader_parameter/sway_strength = 0.362000017195
+shader_parameter/sway_phase_len = 0.0
+shader_parameter/wind_direction = Vector3(1, 0, 0.5)
+shader_parameter/flutter_strength = 0.0
+shader_parameter/debug_vertex_colors = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uas6x"]
+render_priority = 0
+shader = ExtResource("6_e2bpf")
+shader_parameter/texture_albedo = ExtResource("7_76wn7")
+shader_parameter/normal_strength = 1.0
+shader_parameter/metallic = 0.0
+shader_parameter/roughness = 0.9
+shader_parameter/tint_color = Color(1, 1, 1, 1)
+shader_parameter/tint_strength = 1.0
+shader_parameter/sway_speed = 1.0000000475
+shader_parameter/sway_strength = 0.362000017195
+shader_parameter/sway_phase_len = 0.0
+shader_parameter/wind_direction = Vector3(1, 0, 0.5)
+shader_parameter/flutter_strength = 0.0800000038
+shader_parameter/debug_vertex_colors = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ilkb4"]
+render_priority = 0
+shader = ExtResource("6_e2bpf")
+shader_parameter/texture_albedo = ExtResource("7_xkb33")
+shader_parameter/texture_normal = ExtResource("8_ilkb4")
+shader_parameter/normal_strength = 1.0
+shader_parameter/metallic = 0.0
+shader_parameter/roughness = 0.9
+shader_parameter/tint_color = Color(1, 1, 1, 1)
+shader_parameter/tint_strength = 1.0
+shader_parameter/sway_speed = 0.50000002375
+shader_parameter/sway_strength = 0.202000009595
+shader_parameter/sway_phase_len = 2.0
+shader_parameter/wind_direction = Vector3(1, 0, 0.5)
+shader_parameter/flutter_strength = 0.08
+shader_parameter/debug_vertex_colors = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kdkjk"]
+render_priority = 0
+shader = ExtResource("6_e2bpf")
+shader_parameter/texture_albedo = ExtResource("5_siv04")
+shader_parameter/normal_strength = 1.0
+shader_parameter/metallic = 0.0
+shader_parameter/roughness = 0.9
+shader_parameter/tint_color = Color(1, 0, 0, 1)
+shader_parameter/tint_strength = 0.8430000400425
+shader_parameter/sway_speed = 0.50000002375
+shader_parameter/sway_strength = 0.202000009595
+shader_parameter/sway_phase_len = 2.0
+shader_parameter/wind_direction = Vector3(1, 0, 0.5)
+shader_parameter/flutter_strength = 0.08
+shader_parameter/debug_vertex_colors = false
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_yr4ns"]
 sky_top_color = Color(0.56151, 0.757146, 0.893882, 1)
@@ -72,7 +237,6 @@ reflected_light_source = 2
 ssao_enabled = true
 ssao_intensity = 12.27
 ssil_intensity = 16.0
-sdfgi_enabled = true
 sdfgi_use_occlusion = true
 fog_light_color = Color(0.493681, 0.539508, 0.727224, 1)
 adjustment_enabled = true
@@ -138,36 +302,41 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_onr1l"]
 _data = {
-"RESET": SubResource("Animation_8klym"),
-"cam_anim": SubResource("Animation_r5u4t")
+&"RESET": SubResource("Animation_8klym"),
+&"cam_anim": SubResource("Animation_r5u4t")
 }
 
-[node name="Demo" type="Node"]
+[node name="Demo" type="Node" unique_id=1336984352]
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1058150912]
 transform = Transform3D(0.551853, 0.833343, 0.0315978, -0.588053, 0.361993, 0.723294, 0.591314, -0.417733, 0.689817, 0, 3.76065, 7.80258)
 shadow_enabled = true
 shadow_transmittance_bias = 11.686
 shadow_opacity = 0.86
 script = SubResource("GDScript_83sgd")
 
-[node name="grass" type="MeshInstance3D" parent="."]
+[node name="grass" type="MeshInstance3D" parent="." unique_id=624484513]
 transform = Transform3D(142.255, 0, 0, 0, 1, 0, 0, 0, 149.965, 0, -0.0758239, 0)
 mesh = SubResource("BoxMesh_diq37")
 surface_material_override/0 = SubResource("StandardMaterial3D_wu3s1")
 
-[node name="Tree3D" type="Tree3D" parent="."]
+[node name="Tree3D" type="Tree3D" parent="." unique_id=1342870709]
 seed = 696
 trunk_height = 9
 trunk_branch_length = 0.79
 trunk_max_radius = 0.22
 trunk_length = 3.21
 twig_scale = 0.55
-material_trunk = ExtResource("3_vb27k")
-material_twig = ExtResource("4_ml0j2")
+material_trunk = SubResource("ShaderMaterial_q3p5c")
+material_twig = SubResource("ShaderMaterial_lyk1u")
+wind_influence_start = 0.23
+wind_twig_influence_start = 0.0
+wind_blur = 0.21
+wind_branch_wind_strength = 0.0
+wind_branch_wind_blur = 0.15
 transform = Transform3D(-0.0480653, 0, 0.998844, 0, 1, 0, -0.998844, 0, -0.0480653, -24.1285, 0.398237, -2.06323)
 
-[node name="Tree3D2" type="Tree3D" parent="."]
+[node name="Tree3D2" type="Tree3D" parent="." unique_id=1019776702]
 seed = 264
 trunk_branches_count = 4
 trunk_height = 9
@@ -179,11 +348,16 @@ trunk_radius_falloff_rate = 0.7
 trunk_twist = 2.62
 trunk_length = 1.79
 twig_scale = 0.4
-material_trunk = ExtResource("3_vb27k")
-material_twig = SubResource("StandardMaterial3D_7v4ki")
+material_trunk = SubResource("ShaderMaterial_7tfm1")
+material_twig = SubResource("ShaderMaterial_pb46e")
+wind_influence_start = 0.16
+wind_twig_influence_start = 0.49
+wind_blur = 0.4
+wind_branch_wind_strength = 2.07
+wind_branch_wind_start = 1.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.4059, 0, -1.6484)
 
-[node name="Tree3D3" type="Tree3D" parent="."]
+[node name="Tree3D3" type="Tree3D" parent="." unique_id=703131084]
 seed = 264
 trunk_branches_count = 3
 trunk_height = 0
@@ -195,10 +369,15 @@ trunk_twist = 5.0
 trunk_length = 0.38
 twig_scale = 0.65
 material_trunk = ExtResource("3_vb27k")
-material_twig = ExtResource("4_ml0j2")
+material_twig = SubResource("ShaderMaterial_oit25")
+wind_influence_start = 0.0
+wind_twig_influence_start = 0.49
+wind_blur = 0.0
+wind_branch_wind_strength = 0.0
+wind_branch_wind_blur = 0.0
 transform = Transform3D(-0.125922, 0, -0.99204, 0, 1, 0, 0.99204, 0, -0.125922, -12.7613, 0.344063, -1.85098)
 
-[node name="Tree3D4" type="Tree3D" parent="."]
+[node name="Tree3D4" type="Tree3D" parent="." unique_id=828872584]
 trunk_branches_count = 7
 trunk_branch_length = 0.59
 trunk_branch_length_falloff = 0.95
@@ -211,11 +390,17 @@ trunk_kink = -0.37
 trunk_twist = 1.41
 trunk_length = 7.05
 twig_scale = 0.65
-material_trunk = ExtResource("3_vb27k")
-material_twig = SubResource("StandardMaterial3D_jcgol")
+material_trunk = SubResource("ShaderMaterial_xkb33")
+material_twig = SubResource("ShaderMaterial_hbhtp")
+wind_influence_start = 1.0
+wind_twig_influence_start = 1.0
+wind_blur = 0.27
+wind_branch_wind_strength = 1.08
+wind_branch_wind_start = 0.29
+wind_branch_wind_blur = 0.35
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.48727, 0, -1.73671)
 
-[node name="Tree3D5" type="Tree3D" parent="."]
+[node name="Tree3D5" type="Tree3D" parent="." unique_id=1064939066]
 trunk_height = 30
 trunk_drop_amount = 0.0
 trunk_max_radius = 0.2
@@ -225,10 +410,10 @@ trunk_twist = -2.47
 trunk_length = 3.61
 twig_scale = 1.0
 material_trunk = ExtResource("3_vb27k")
-material_twig = SubResource("StandardMaterial3D_4uu2h")
+material_twig = SubResource("ShaderMaterial_e2bpf")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.78249, 0.283189, -1.85144)
 
-[node name="Tree3D6" type="Tree3D" parent="."]
+[node name="Tree3D6" type="Tree3D" parent="." unique_id=1774727684]
 seed = 264
 trunk_branches_count = 4
 trunk_height = 12
@@ -241,11 +426,17 @@ trunk_climb_rate = 2.02
 trunk_kink = 0.0
 trunk_length = 11.52
 twig_scale = 2.0
-material_trunk = ExtResource("3_vb27k")
-material_twig = SubResource("StandardMaterial3D_6nnmw")
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+collision_type = 1
+wind_influence_start = 0.5
+wind_branch_wind_strength = 1.0
+wind_branch_wind_start = 0.05
+wind_branch_wind_blur = 0.75
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.478, 0.349041, -1.64543)
 
-[node name="Tree3D7" type="Tree3D" parent="."]
+[node name="Tree3D7" type="Tree3D" parent="." unique_id=1162342327]
 seed = 325
 trunk_branches_count = 7
 trunk_height = 4
@@ -257,17 +448,21 @@ trunk_climb_rate = 0.37
 trunk_twist = 2.21
 trunk_length = 4.83
 twig_scale = 0.7
-material_trunk = ExtResource("3_vb27k")
-material_twig = SubResource("StandardMaterial3D_lr3b5")
+material_trunk = SubResource("ShaderMaterial_ilkb4")
+material_twig = SubResource("ShaderMaterial_kdkjk")
+collision_enabled = true
+wind_influence_start = 0.38
+wind_twig_influence_start = 0.39
+wind_blur = 0.83
+wind_branch_wind_strength = 0.0
+wind_branch_wind_blur = 0.0
 transform = Transform3D(0.9725, 0, -0.232902, 0, 1, 0, 0.232902, 0, 0.9725, -30.9625, 0.351455, -2.10898)
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.98211, 0.188308, -0.000970994, 0, 0.00515633, 0.999987, 0.188311, -0.982096, 0.00506408, -23.8825, 7.68107, -2.56408)
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1754656613]
+transform = Transform3D(0.9821101, 0.18830831, -0.00097099366, 0, 0.005156329, 0.99998695, 0.18831103, -0.98209596, 0.0050640833, -23.8825, 7.68107, -2.56408)
 environment = SubResource("Environment_21r7m")
 current = true
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera3D"]
-libraries = {
-"": SubResource("AnimationLibrary_onr1l")
-}
-autoplay = "cam_anim"
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera3D" unique_id=1251248551]
+libraries/ = SubResource("AnimationLibrary_onr1l")
+autoplay = &"cam_anim"

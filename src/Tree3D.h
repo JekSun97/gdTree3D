@@ -37,6 +37,13 @@ private:
 	bool _twig_enable = true;
 	bool _collision_enabled = false;
 	int _collision_type = 0; // 0 = fast (cylinder), 1 = accurate (concave)
+	
+	float _wind_influence_start = 0.4f;
+	float _wind_blur = 0.2f;
+	float _branch_wind_strength = 1.5f;
+	float _branch_wind_start = 0.0f;
+	float _branch_wind_blur = 0.3f;
+	float _twig_wind_influence_start = 0.5f;
 
 protected:
 	static void _bind_methods();
@@ -104,6 +111,24 @@ public:
 	bool get_collision_enabled();
 	void set_collision_type(int value);
 	int get_collision_type();
+	
+	void set_wind_influence_start(float value);
+	float get_wind_influence_start();
+	
+	void set_wind_blur(float value);
+	float get_wind_blur();
+	
+	void set_branch_wind_strength(float value);
+	float get_branch_wind_strength();
+	
+	void set_branch_wind_start(float value);
+	float get_branch_wind_start();
+	
+	void set_branch_wind_blur(float value);
+	float get_branch_wind_blur();
+	
+	void set_twig_wind_influence_start(float value);
+	float get_twig_wind_influence_start();
 
 };
 }
