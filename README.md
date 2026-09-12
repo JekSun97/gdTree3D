@@ -47,6 +47,7 @@ docker run --rm -v "$(pwd):/source" tree3dbuilder:latest scons target=template_r
 - [x] Wind and swaying foliage.
 - [ ] A tool for quickly placing trees and forests in any location or landscape.
 - [ ] Support for custom models instead of default foliage.
+- [ ] Automatic LOD.
 
 ## Donations
 If you liked this plugin, you could send me a thank you via Ko-Fi using [Ko-Fi](https://ko-fi.com/jeksun), I would be very grateful!
