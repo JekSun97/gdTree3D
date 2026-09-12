@@ -147,7 +147,16 @@ namespace Proctree
 		float aGrowAmount,
 		float aVMultiplier,
 		float aTwigScale,
-		int aSeed)
+		int aSeed,
+		
+		float aWindInfluenceStart,
+		float aTwigWindInfluenceStart,
+		float aWindBlur,
+		float aBranchWindStrength,
+		float aBranchWindStart,
+		float aBranchWindBlur)
+	
+		
 	{
 		mSeed = aSeed;
 		mSegments = aSegments;
@@ -171,6 +180,13 @@ namespace Proctree
 		mRadiusFalloffRate = aRadiusFalloffRate;
 		mTwistRate = aTwistRate;
 		mTrunkLength = aTrunkLength;
+		
+		mWindInfluenceStart = aWindInfluenceStart;
+		mWindBlur = aWindBlur;
+		mBranchWindStrength = aBranchWindStrength;
+		mBranchWindStart = aBranchWindStart;
+		mBranchWindBlur = aBranchWindBlur;
+		mTwigWindInfluenceStart = aTwigWindInfluenceStart;
 	}
 
 	Properties::Properties()
@@ -197,6 +213,13 @@ namespace Proctree
 		mRadiusFalloffRate = 0.73f;
 		mTwistRate = 3.02f;
 		mTrunkLength = 2.4f;
+		
+		mWindInfluenceStart = 0.4f;
+		mWindBlur = 0.2f;
+		mBranchWindStrength = 1.5f;
+		mBranchWindStart = 0.0f;
+		mBranchWindBlur = 0.3f;
+		mTwigWindInfluenceStart = 0.5f;
 	}
 
 	float Properties::random(float aFixed)
@@ -234,9 +257,10 @@ namespace Proctree
 		mHead = { 0, 0, 0 };
 		mTangent = { 0, 0, 0 };
 		mEnd = 0;
+		mLevel = 0;
 	}
 
-	Branch::Branch(fvec3 aHead, Branch *aParent)
+	Branch::Branch(fvec3 aHead, Branch *aParent, int aLevel)
 	{
 		mRootRing = 0;
 		mRing0 = 0;
@@ -251,6 +275,7 @@ namespace Proctree
 		mTangent = { 0, 0, 0 };
 		mParent = aParent;
 		mEnd = 0;
+		mLevel = aLevel;
 	}
 
 	void Branch::split(int aLevel, int aSteps, Properties &aProperties, int aL1/* = 1*/, int aL2/* = 1*/)
@@ -306,8 +331,8 @@ namespace Proctree
 
 		fvec3 head0 = add(so, scaleVec(newdir, mLength));
 		fvec3 head1 = add(so, scaleVec(newdir2, mLength));
-		mChild0 = new Branch(head0, this);
-		mChild1 = new Branch(head1, this);
+		mChild0 = new Branch(head0, this, aLevel - 1);
+		mChild1 = new Branch(head1, this, aLevel - 1);
 		mChild0->mLength = pow(mLength, aProperties.mLengthFalloffPower) * aProperties.mLengthFalloffFactor;
 		mChild1->mLength = pow(mLength, aProperties.mLengthFalloffPower) * aProperties.mLengthFalloffFactor;
 
@@ -340,9 +365,11 @@ namespace Proctree
 		mVert = 0;
 		mNormal = 0;
 		mUV = 0;
+		mColor = 0;
 		mTwigVert = 0;
 		mTwigNormal = 0;
 		mTwigUV = 0;
+		mTwigColor = 0;
 		mFace = 0;
 		mTwigFace = 0;
 
@@ -358,9 +385,11 @@ namespace Proctree
 		delete[] mVert;
 		delete[] mNormal;
 		delete[] mUV;
+		delete[] mColor;
 		delete[] mTwigVert;
 		delete[] mTwigNormal;
 		delete[] mTwigUV;
+		delete[] mTwigColor;
 		delete[] mFace;
 		delete[] mTwigFace;
 	}
@@ -376,9 +405,11 @@ namespace Proctree
 		delete[] mVert;
 		delete[] mNormal;
 		delete[] mUV;
+		delete[] mColor;
 		delete[] mTwigVert;
 		delete[] mTwigNormal;
 		delete[] mTwigUV;
+		delete[] mTwigColor;
 		delete[] mFace;
 		delete[] mTwigFace;
 
@@ -386,9 +417,11 @@ namespace Proctree
 		mVert = 0;
 		mNormal = 0;
 		mUV = 0;
+		mColor = 0;
 		mTwigVert = 0;
 		mTwigNormal = 0;
 		mTwigUV = 0;
+		mTwigColor = 0;
 		mFace = 0;
 		mTwigFace = 0;
 	}
@@ -398,9 +431,11 @@ namespace Proctree
 		mVert = new fvec3[mVertCount];
 		mNormal = new fvec3[mVertCount];
 		mUV = new fvec2[mVertCount];
+		mColor = new fvec4[mVertCount];
 		mTwigVert = new fvec3[mTwigVertCount];
 		mTwigNormal = new fvec3[mTwigVertCount];
 		mTwigUV = new fvec2[mTwigVertCount];
+		mTwigColor = new fvec4[mTwigVertCount];
 		mTwigFace = new ivec3[mTwigFaceCount];
 
 		// Reset back to zero, we'll use these as counters
@@ -424,7 +459,7 @@ namespace Proctree
 		init();
 		mProperties.mRseed = mProperties.mSeed;
 		fvec3 starthead = { 0, mProperties.mTrunkLength, 0 };
-		mRoot = new Branch(starthead, 0);
+		mRoot = new Branch(starthead, 0, mProperties.mLevels);
 		mRoot->mLength = mProperties.mInitialBranchLength;
 		mRoot->split(mProperties.mLevels, mProperties.mTreeSteps, mProperties);
 
@@ -432,6 +467,20 @@ namespace Proctree
 		allocVertBuffers();
 		createForks(0, 0);
 		createTwigs(0);
+		
+		float minHeight = mVertCount > 0 ? mVert[0].y : 0.0f;
+		float maxHeight = minHeight;
+		
+		for (int i = 0; i < mVertCount; i++) {
+			if (mVert[i].y < minHeight) minHeight = mVert[i].y;
+			if (mVert[i].y > maxHeight) maxHeight = mVert[i].y;
+		}
+		for (int i = 0; i < mTwigVertCount; i++) {
+			if (mTwigVert[i].y < minHeight) minHeight = mTwigVert[i].y;
+			if (mTwigVert[i].y > maxHeight) maxHeight = mTwigVert[i].y;
+		}
+		
+		assignColors(0, 0.0f, maxHeight);
 		calcFaceSizes(0);
 		allocFaceBuffers();
 		doFaces(0);
@@ -439,6 +488,77 @@ namespace Proctree
 		fixUVs();
 		delete mRoot;
 		mRoot = 0;
+	}
+	
+	void Tree::assignColors(Branch *aBranch, float aMinHeight, float aMaxHeight)
+	{
+		if (!aBranch) aBranch = mRoot;
+
+		int segments = mProperties.mSegments;
+		float heightRange = aMaxHeight - aMinHeight;
+		if (heightRange < 0.001f) heightRange = 1.0f;
+
+		// Нормализованный уровень ветки: 0.0 = ствол, 1.0 = самые кончики
+		float branch_level_norm = 1.0f - (aBranch->mLevel / (float)mProperties.mLevels);
+
+		auto smoothstep = [](float t, float start, float blur) {
+			if (blur < 0.001f) blur = 0.001f;
+			float val = (t - start) / blur;
+			if (val <= 0.0f) return 0.0f;
+			if (val >= 1.0f) return 1.0f;
+			return val * val * (3.0f - 2.0f * val);
+		};
+
+		// Дополнительное влияние для этой ветки (зависит только от уровня ветвления)
+		float branch_extra = smoothstep(branch_level_norm, mProperties.mBranchWindStart, mProperties.mBranchWindBlur) * mProperties.mBranchWindStrength;
+
+		auto colorVertex = [&](int idx, float vertY) {
+			if (idx >= 0 && idx < mVertCount) {
+				float norm_h = (vertY - aMinHeight) / heightRange;
+				
+				// 1. БАЗОВОЕ влияние по высоте (то, что ты хотел сохранить!)
+				float height_inf = smoothstep(norm_h, mProperties.mWindInfluenceStart, mProperties.mWindBlur);
+				
+				// 2. Итоговое влияние = высота + доп. влияние ветки
+				float final_inf = height_inf + branch_extra;
+				if (final_inf > 1.0f) final_inf = 1.0f;
+
+				// R = итоговое влияние, G = уровень ветки (для отладки), B = 0, A = 1
+				mColor[idx] = { final_inf, branch_level_norm, 0.0f, 1.0f };
+			}
+		};
+
+		// Применяем к кольцам текущей ветки
+		if (aBranch->mRing0) for (int i = 0; i < segments; i++) colorVertex(aBranch->mRing0[i], mVert[aBranch->mRing0[i]].y);
+		if (aBranch->mRing1) for (int i = 0; i < segments; i++) colorVertex(aBranch->mRing1[i], mVert[aBranch->mRing1[i]].y);
+		if (aBranch->mRing2) for (int i = 0; i < segments; i++) colorVertex(aBranch->mRing2[i], mVert[aBranch->mRing2[i]].y);
+		if (aBranch->mRootRing) for (int i = 0; i < segments; i++) colorVertex(aBranch->mRootRing[i], mVert[aBranch->mRootRing[i]].y);
+		if (aBranch->mEnd >= 0 && aBranch->mEnd < mVertCount) {
+			colorVertex(aBranch->mEnd, mVert[aBranch->mEnd].y);
+		}
+
+		// Рекурсия
+		if (aBranch->mChild0) {
+			assignColors(aBranch->mChild0, aMinHeight, aMaxHeight);
+			assignColors(aBranch->mChild1, aMinHeight, aMaxHeight);
+		}
+
+		// Окрашиваем листья (Twig)
+		if (!aBranch->mParent) {
+			for (int i = 0; i < mTwigVertCount; i++) {
+				float norm_h = (mTwigVert[i].y - aMinHeight) / heightRange;
+				
+				// Для листьев используем ИХ собственный порог начала (wind_twig_influence_start)
+				// Но они также получают максимальное доп. влияние от веток (branch_level_norm = 1.0)
+				float twig_height_inf = smoothstep(norm_h, mProperties.mTwigWindInfluenceStart, mProperties.mWindBlur);
+				float twig_extra = 1.0f * mProperties.mBranchWindStrength; 
+				
+				float final_inf = twig_height_inf + twig_extra;
+				if (final_inf > 1.0f) final_inf = 1.0f;
+				
+				mTwigColor[i] = { final_inf, 1.0f, 0.0f, 1.0f };
+			}
+		}
 	}
 
 	void Tree::fixUVs()
@@ -535,6 +655,11 @@ namespace Proctree
 		memcpy(nuv, mUV, sizeof(fvec2) * mVertCount);
 		delete[] mUV;
 		mUV = nuv;
+		
+		fvec4 *ncolor = new fvec4[mVertCount + badverts];
+		memcpy(ncolor, mColor, sizeof(fvec4) * mVertCount);
+		delete[] mColor;
+		mColor = ncolor;
 
 		// step 3: populate duplicate verts - otherwise identical except for U=1 instead of 0
 		
@@ -544,6 +669,7 @@ namespace Proctree
 			mNormal[mVertCount + i] = mNormal[badverttable[i]];
 			mUV[mVertCount + i] = mUV[badverttable[i]];
 			mUV[mVertCount + i].u = 1.0f;
+			mColor[mVertCount + i] = mColor[badverttable[i]];
 		}
 
 		// step 4: fix faces
@@ -884,6 +1010,16 @@ namespace Proctree
 			mTwigNormal[vert7] = (normal2);
 			mTwigNormal[vert6] = (normal2);
 			mTwigNormal[vert5] = (normal2);
+			
+			// fvec4 twigColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+			// mTwigColor[vert1] = twigColor;
+			// mTwigColor[vert2] = twigColor;
+			// mTwigColor[vert3] = twigColor;
+			// mTwigColor[vert4] = twigColor;
+			// mTwigColor[vert5] = twigColor;
+			// mTwigColor[vert6] = twigColor;
+			// mTwigColor[vert7] = twigColor;
+			// mTwigColor[vert8] = twigColor;
 
 			mTwigUV[vert1] = { 0, 0 };
 			mTwigUV[vert2] = { 1, 0 };

@@ -62,6 +62,24 @@ void Tree3D::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_collision_type"), &Tree3D::get_collision_type);
 	
 	
+	ClassDB::bind_method(D_METHOD("set_wind_influence_start", "value"), &Tree3D::set_wind_influence_start);
+	ClassDB::bind_method(D_METHOD("get_wind_influence_start"), &Tree3D::get_wind_influence_start);
+	ClassDB::bind_method(D_METHOD("set_twig_wind_influence_start", "value"), &Tree3D::set_twig_wind_influence_start);
+	ClassDB::bind_method(D_METHOD("get_twig_wind_influence_start"), &Tree3D::get_twig_wind_influence_start);
+	
+	ClassDB::bind_method(D_METHOD("set_wind_blur", "value"), &Tree3D::set_wind_blur);
+	ClassDB::bind_method(D_METHOD("get_wind_blur"), &Tree3D::get_wind_blur);
+	
+	ClassDB::bind_method(D_METHOD("set_branch_wind_strength", "value"), &Tree3D::set_branch_wind_strength);
+	ClassDB::bind_method(D_METHOD("get_branch_wind_strength"), &Tree3D::get_branch_wind_strength);
+	
+	ClassDB::bind_method(D_METHOD("set_branch_wind_start", "value"), &Tree3D::set_branch_wind_start);
+	ClassDB::bind_method(D_METHOD("get_branch_wind_start"), &Tree3D::get_branch_wind_start);
+	
+	ClassDB::bind_method(D_METHOD("set_branch_wind_blur", "value"), &Tree3D::set_branch_wind_blur);
+	ClassDB::bind_method(D_METHOD("get_branch_wind_blur"), &Tree3D::get_branch_wind_blur);
+	
+	
 	ClassDB::add_property("Tree3D", PropertyInfo(Variant::INT, "seed", PROPERTY_HINT_RANGE, "0,100000,1"), "set_seed", "get_seed");
 	
 	ADD_GROUP("Trunk", "trunk_");
@@ -95,6 +113,14 @@ void Tree3D::_bind_methods() {
 	ADD_GROUP("Collision", "collision_");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "collision_enabled"), "set_collision_enabled", "get_collision_enabled");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "collision_type", PROPERTY_HINT_ENUM, "Fast (Cylinder),Accurate (Concave Mesh)"), "set_collision_type", "get_collision_type");
+	
+	ADD_GROUP("Wind", "wind_");
+	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "wind_influence_start", PROPERTY_HINT_RANGE, "0.0,1.0,0.01"), "set_wind_influence_start", "get_wind_influence_start");
+	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "wind_twig_influence_start", PROPERTY_HINT_RANGE, "0.0,1.0,0.01"), "set_twig_wind_influence_start", "get_twig_wind_influence_start");
+	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "wind_blur", PROPERTY_HINT_RANGE, "0.0,1.0,0.01"), "set_wind_blur", "get_wind_blur");
+	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "wind_branch_wind_strength", PROPERTY_HINT_RANGE, "0.0,3.0,0.01"), "set_branch_wind_strength", "get_branch_wind_strength");
+	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "wind_branch_wind_start", PROPERTY_HINT_RANGE, "0.0,1.0,0.01"), "set_branch_wind_start", "get_branch_wind_start");
+	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "wind_branch_wind_blur", PROPERTY_HINT_RANGE, "0.0,1.0,0.01"), "set_branch_wind_blur", "get_branch_wind_blur");
 }
 
 
@@ -407,12 +433,13 @@ void Tree3D::UpdateMeshTrunk()
 {
 	Ref<SurfaceTool> st;
 	st.instantiate();
-	st->clear();
 	st->begin(Mesh::PRIMITIVE_TRIANGLES);
     for (int i = 0; i < tree.mVertCount; i++)
 	{
+		st->set_color(Color(tree.mColor[i].r, tree.mColor[i].g, tree.mColor[i].b, tree.mColor[i].a));
+		//st->set_color(Color(0, 256, 0, 256));
 		st->set_uv(Vector2(tree.mUV[i].u, tree.mUV[i].v));
-		st->set_normal(-Vector3(tree.mNormal[i].x, tree.mNormal[i].y, tree.mNormal[i].z));
+		st->set_normal(Vector3(tree.mNormal[i].x, tree.mNormal[i].y, tree.mNormal[i].z));
 		st->add_vertex(Vector3(tree.mVert[i].x, tree.mVert[i].y, tree.mVert[i].z));
 	}
 	
@@ -424,7 +451,6 @@ void Tree3D::UpdateMeshTrunk()
 	}
 	st->optimize_indices_for_cache();
 	trunk_inst->set_mesh(st->commit());
-	st->clear();
 	
 	UpdateCollision();
 }
@@ -439,8 +465,10 @@ void Tree3D::UpdateMeshTwig()
 	st->begin(Mesh::PRIMITIVE_TRIANGLES);
     for (int i = 0; i < tree.mTwigVertCount; i++)
 	{
+		st->set_color(Color(tree.mTwigColor[i].r, tree.mTwigColor[i].g, tree.mTwigColor[i].b, tree.mTwigColor[i].a));
+		//st->set_color(Color(256.0, 0.0, 0.0, 256.0));
 		st->set_uv(Vector2(tree.mTwigUV[i].u, tree.mTwigUV[i].v));
-		st->set_normal(-Vector3(tree.mTwigNormal[i].x, tree.mTwigNormal[i].y, tree.mTwigNormal[i].z));
+		st->set_normal(Vector3(tree.mTwigNormal[i].x, tree.mTwigNormal[i].y, tree.mTwigNormal[i].z));
 		st->add_vertex(Vector3(tree.mTwigVert[i].x, tree.mTwigVert[i].y, tree.mTwigVert[i].z));
 	}
 	
@@ -525,8 +553,8 @@ void Tree3D::CreateAccurateCollision() {
 		faces.push_back(Vector3(tree.mVert[tree.mFace[i].y].x, tree.mVert[tree.mFace[i].y].y, tree.mVert[tree.mFace[i].y].z));
 		faces.push_back(Vector3(tree.mVert[tree.mFace[i].z].x, tree.mVert[tree.mFace[i].z].y, tree.mVert[tree.mFace[i].z].z));
 	}
-
-	/*if (_twig_enable && twig_inst) {
+	/*
+	if (_twig_enable && twig_inst) {
 		for (int i = 0; i < tree.mTwigFaceCount; i++) {
 			faces.push_back(Vector3(tree.mTwigVert[tree.mTwigFace[i].x].x, tree.mTwigVert[tree.mTwigFace[i].x].y, tree.mTwigVert[tree.mTwigFace[i].x].z));
 			faces.push_back(Vector3(tree.mTwigVert[tree.mTwigFace[i].y].x, tree.mTwigVert[tree.mTwigFace[i].y].y, tree.mTwigVert[tree.mTwigFace[i].y].z));
@@ -544,3 +572,52 @@ void Tree3D::RemoveCollision() {
 		collision_body = nullptr;
 	}
 }
+
+
+void Tree3D::set_wind_influence_start(float value) {
+	_wind_influence_start = value;
+	tree.mProperties.mWindInfluenceStart = value;
+	UpdateAllMeshes();
+}
+
+float Tree3D::get_wind_influence_start() {
+	return _wind_influence_start;
+}
+
+void Tree3D::set_twig_wind_influence_start(float value) {
+	_twig_wind_influence_start = value;
+	tree.mProperties.mTwigWindInfluenceStart = value;
+	UpdateMeshTwig();
+}
+
+float Tree3D::get_twig_wind_influence_start() {
+	return _twig_wind_influence_start;
+}
+
+void Tree3D::set_wind_blur(float value) {
+	_wind_blur = value;
+	tree.mProperties.mWindBlur = value;
+	UpdateAllMeshes();
+}
+float Tree3D::get_wind_blur() { return _wind_blur; }
+
+void Tree3D::set_branch_wind_strength(float value) {
+	_branch_wind_strength = value;
+	tree.mProperties.mBranchWindStrength = value;
+	UpdateAllMeshes();
+}
+float Tree3D::get_branch_wind_strength() { return _branch_wind_strength; }
+
+void Tree3D::set_branch_wind_start(float value) {
+	_branch_wind_start = value;
+	tree.mProperties.mBranchWindStart = value;
+	UpdateAllMeshes();
+}
+float Tree3D::get_branch_wind_start() { return _branch_wind_start; }
+
+void Tree3D::set_branch_wind_blur(float value) {
+	_branch_wind_blur = value;
+	tree.mProperties.mBranchWindBlur = value;
+	UpdateAllMeshes();
+}
+float Tree3D::get_branch_wind_blur() { return _branch_wind_blur; }

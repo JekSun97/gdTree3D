@@ -43,6 +43,11 @@ namespace Proctree
 	{
 		int x, y, z;
 	} ivec3;
+	
+	typedef struct
+	{
+		float r, g, b, a;
+	} fvec4;
 
 	class Properties
 	{
@@ -70,6 +75,13 @@ namespace Proctree
 		float mTwigScale;
 		int mSeed;
 		int mRseed;
+		
+		float mWindInfluenceStart;
+		float mWindBlur;
+		float mBranchWindStrength;
+		float mBranchWindStart;
+		float mBranchWindBlur;
+		float mTwigWindInfluenceStart;
 
 		Properties();
 		Properties(
@@ -94,7 +106,15 @@ namespace Proctree
 			float aGrowAmount,
 			float aVMultiplier,
 			float aTwigScale,
-			int aSeed);
+			int aSeed,
+			
+			float aWindInfluenceStart = 0.4f,
+			float aWindBlur = 0.2f,
+			float aBranchWindStrength = 0.9f,
+			float aBranchWindStart = 0.0f,
+			float aBranchWindBlur = 0.3f,
+			float aTwigWindInfluenceStart = 0.5f);
+			
 		float random(float aFixed);
 	};
 
@@ -113,10 +133,11 @@ namespace Proctree
 		int *mRootRing;
 		float mRadius;
 		int mEnd;
+		int mLevel;
 
 		~Branch();
 		Branch();
-		Branch(fvec3 aHead, Branch *aParent);
+		Branch(fvec3 aHead, Branch *aParent, int aLevel = 0);
 		void split(int aLevel, int aSteps, Properties &aProperties, int aL1 = 1, int aL2 = 1);
 	};
 
@@ -133,6 +154,7 @@ namespace Proctree
 		void doFaces(Branch *aBranch);
 		void createTwigs(Branch *aBranch);
 		void createForks(Branch *aBranch, float aRadius);
+		void assignColors(Branch *aBranch, float aMinHeight, float aMaxHeight);
 		void fixUVs();
 	public:
 		Properties mProperties;
@@ -144,9 +166,11 @@ namespace Proctree
 		fvec3 *mVert;
 		fvec3 *mNormal;
 		fvec2 *mUV;
+		fvec4 *mColor; 
 		fvec3 *mTwigVert;
 		fvec3 *mTwigNormal;
 		fvec2 *mTwigUV;
+		fvec4 *mTwigColor;
 		ivec3 *mFace;
 		ivec3 *mTwigFace;
 

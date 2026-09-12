@@ -8,11 +8,15 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="Tree3D Demo"
 config/description="Author: Artyom Bozhko"
-config/version="0.5 beta"
+config/version="1.0"
 run/main_scene="res://tree_3d.tscn"
-config/features=PackedStringArray("4.2", "GL Compatibility")
+config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://addons/Tree3D/ico/Tree3D.png"
