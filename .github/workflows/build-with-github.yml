@@ -5,10 +5,8 @@ permissions:
 
 on:
   push:
-    # build and bundle for every branch push
-    branches: ["*"]
-    # create github release when commit was marked via "git tag"
-    tags: ["v*"]
+    tags:
+      - "v*"
 
 jobs:
   Build-Linux:
