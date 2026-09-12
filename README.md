@@ -22,6 +22,8 @@ Plugin for procedural generation of 3D trees of varying complexity.
 - To ensure the tree displays correctly, use Cull Mode: Front for the tree trunk material.
 - To change the season, you can make one unique leaf material for all the trees and then change its color or texture to make them yellow.
 
+<img src="https://github.com/JekSun97/gdTree3D/blob/main/image/Wind.gif?raw=true">
+
 ## Building the GDExtension
 
 1. Place [godot-cpp](https://github.com/godotengine/godot-cpp) of the version you need in the godot-cpp folder
