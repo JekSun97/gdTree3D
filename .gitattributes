@@ -1,7 +1,13 @@
 * text=auto eol=lf
 
-/**        export-ignore
-/demo !export-ignore
+
+/src/** !export-ignore
+/.github/** !export-ignore
 /demo/** !export-ignore
-/addons !export-ignore
 /addons/** !export-ignore
+
+SConstruct !export-ignore
+Dockerfile !export-ignore
+README.md !export-ignore
+.gitignore !export-ignore
+.gitattributes !export-ignore
