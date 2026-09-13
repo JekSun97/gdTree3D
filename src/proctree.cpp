@@ -498,7 +498,6 @@ namespace Proctree
 		float heightRange = aMaxHeight - aMinHeight;
 		if (heightRange < 0.001f) heightRange = 1.0f;
 
-		// Нормализованный уровень ветки: 0.0 = ствол, 1.0 = самые кончики
 		float branch_level_norm = 1.0f - (aBranch->mLevel / (float)mProperties.mLevels);
 
 		auto smoothstep = [](float t, float start, float blur) {
@@ -509,26 +508,26 @@ namespace Proctree
 			return val * val * (3.0f - 2.0f * val);
 		};
 
-		// Дополнительное влияние для этой ветки (зависит только от уровня ветвления)
 		float branch_extra = smoothstep(branch_level_norm, mProperties.mBranchWindStart, mProperties.mBranchWindBlur) * mProperties.mBranchWindStrength;
 
 		auto colorVertex = [&](int idx, float vertY) {
 			if (idx >= 0 && idx < mVertCount) {
 				float norm_h = (vertY - aMinHeight) / heightRange;
 				
-				// 1. БАЗОВОЕ влияние по высоте (то, что ты хотел сохранить!)
+				if (norm_h <= 0.01f) {
+					mColor[idx] = { 0.0f, branch_level_norm, 0.0f, 1.0f };
+					return;
+				}
+				
 				float height_inf = smoothstep(norm_h, mProperties.mWindInfluenceStart, mProperties.mWindBlur);
 				
-				// 2. Итоговое влияние = высота + доп. влияние ветки
 				float final_inf = height_inf + branch_extra;
 				if (final_inf > 1.0f) final_inf = 1.0f;
 
-				// R = итоговое влияние, G = уровень ветки (для отладки), B = 0, A = 1
 				mColor[idx] = { final_inf, branch_level_norm, 0.0f, 1.0f };
 			}
 		};
 
-		// Применяем к кольцам текущей ветки
 		if (aBranch->mRing0) for (int i = 0; i < segments; i++) colorVertex(aBranch->mRing0[i], mVert[aBranch->mRing0[i]].y);
 		if (aBranch->mRing1) for (int i = 0; i < segments; i++) colorVertex(aBranch->mRing1[i], mVert[aBranch->mRing1[i]].y);
 		if (aBranch->mRing2) for (int i = 0; i < segments; i++) colorVertex(aBranch->mRing2[i], mVert[aBranch->mRing2[i]].y);
@@ -537,19 +536,15 @@ namespace Proctree
 			colorVertex(aBranch->mEnd, mVert[aBranch->mEnd].y);
 		}
 
-		// Рекурсия
 		if (aBranch->mChild0) {
 			assignColors(aBranch->mChild0, aMinHeight, aMaxHeight);
 			assignColors(aBranch->mChild1, aMinHeight, aMaxHeight);
 		}
 
-		// Окрашиваем листья (Twig)
 		if (!aBranch->mParent) {
 			for (int i = 0; i < mTwigVertCount; i++) {
 				float norm_h = (mTwigVert[i].y - aMinHeight) / heightRange;
 				
-				// Для листьев используем ИХ собственный порог начала (wind_twig_influence_start)
-				// Но они также получают максимальное доп. влияние от веток (branch_level_norm = 1.0)
 				float twig_height_inf = smoothstep(norm_h, mProperties.mTwigWindInfluenceStart, mProperties.mWindBlur);
 				float twig_extra = 1.0f * mProperties.mBranchWindStrength; 
 				
