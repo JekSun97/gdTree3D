@@ -1,0 +1,1998 @@
+[gd_scene format=3 uid="uid://cdycu714wv2xc"]
+
+[ext_resource type="Texture2D" uid="uid://mm7knhxrqom6" path="res://grass.png" id="1_5rndp"]
+[ext_resource type="Shader" uid="uid://dhistk0r0oil0" path="res://addons/Tree3D/Materials/Tree3DUniversalMaterialNigh.gdshader" id="2_vmuxp"]
+[ext_resource type="Texture2D" uid="uid://cj1bch3bd4y66" path="res://bark.jpg" id="3_s4ejc"]
+[ext_resource type="Texture2D" uid="uid://6avsei2gxmae" path="res://bark_normal.png" id="7_8dl3p"]
+[ext_resource type="Texture2D" uid="uid://c1w2l4pyoy433" path="res://Branches3.png" id="9_0aefg"]
+
+[sub_resource type="GDScript" id="GDScript_83sgd"]
+script/source = "extends DirectionalLight3D
+
+
+func _process(delta):
+	#rotate_x(0.01*delta)
+	rotate_y(0.1*delta)
+	pass
+"
+
+[sub_resource type="BoxMesh" id="BoxMesh_diq37"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wu3s1"]
+disable_ambient_light = true
+albedo_texture = ExtResource("1_5rndp")
+uv1_scale = Vector3(35, 35, 35)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_yr4ns"]
+sky_top_color = Color(0.9528888, 0.6666356, 0.5999587, 1)
+sky_horizon_color = Color(8.663535e-07, 0.5858712, 0.7160136, 1)
+sky_curve = 0.054903235
+
+[sub_resource type="Sky" id="Sky_2h3fg"]
+sky_material = SubResource("ProceduralSkyMaterial_yr4ns")
+
+[sub_resource type="Environment" id="Environment_21r7m"]
+background_mode = 2
+background_color = Color(0.890898, 0.94296, 0.984187, 1)
+background_energy_multiplier = 0.65
+sky = SubResource("Sky_2h3fg")
+sky_custom_fov = 11.3
+ambient_light_source = 3
+reflected_light_source = 2
+ssao_enabled = true
+ssao_intensity = 12.27
+ssil_intensity = 16.0
+sdfgi_use_occlusion = true
+fog_light_color = Color(0.493681, 0.539508, 0.727224, 1)
+adjustment_enabled = true
+adjustment_brightness = 1.51
+adjustment_contrast = 1.25
+adjustment_saturation = 1.34
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_chj2x"]
+render_priority = 0
+shader = ExtResource("2_vmuxp")
+shader_parameter/texture_albedo = ExtResource("3_s4ejc")
+shader_parameter/texture_normal = ExtResource("7_8dl3p")
+shader_parameter/normal_strength = 1.0
+shader_parameter/metallic = 0.0
+shader_parameter/roughness = 0.9
+shader_parameter/tint_color = Color(1, 1, 1, 1)
+shader_parameter/tint_strength = 1.0
+shader_parameter/sway_phase_len = 0.0
+shader_parameter/flutter_strength = 0.0
+shader_parameter/gust_speed = 0.90000003949012
+shader_parameter/gust_chaos = 0.0
+shader_parameter/debug_vertex_colors = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uas6x"]
+render_priority = 0
+shader = ExtResource("2_vmuxp")
+shader_parameter/texture_albedo = ExtResource("9_0aefg")
+shader_parameter/normal_strength = 1.0
+shader_parameter/metallic = 0.0
+shader_parameter/roughness = 0.9
+shader_parameter/tint_color = Color(1, 1, 1, 1)
+shader_parameter/tint_strength = 1.0
+shader_parameter/sway_phase_len = 0.0
+shader_parameter/flutter_strength = 0.22800001083
+shader_parameter/gust_speed = 0.90000003949012
+shader_parameter/gust_chaos = 0.0030000001425
+shader_parameter/debug_vertex_colors = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vmuxp"]
+render_priority = 0
+shader = ExtResource("2_vmuxp")
+shader_parameter/texture_albedo = ExtResource("9_0aefg")
+shader_parameter/normal_strength = 1.0
+shader_parameter/metallic = 0.0
+shader_parameter/roughness = 0.9
+shader_parameter/tint_color = Color(0.844883, 0.75433534, 0.0040861084, 1)
+shader_parameter/tint_strength = 1.0
+shader_parameter/sway_phase_len = 0.0
+shader_parameter/flutter_strength = 0.0330000015675
+shader_parameter/gust_speed = 0.10000000149012
+shader_parameter/gust_chaos = 0.0030000001425
+shader_parameter/debug_vertex_colors = false
+
+[node name="Demo" type="Node" unique_id=1336984352]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1058150912]
+transform = Transform3D(0.551853, 0.833343, 0.0315978, -0.588053, 0.361993, 0.723294, 0.591314, -0.417733, 0.689817, 0, 3.76065, 7.80258)
+shadow_enabled = true
+shadow_transmittance_bias = 11.686
+shadow_opacity = 0.86
+script = SubResource("GDScript_83sgd")
+
+[node name="grass" type="MeshInstance3D" parent="." unique_id=624484513]
+transform = Transform3D(292.38495, 0, 0, 0, 1, 0, 0, 0, 436.6898, 0, -0.0758239, 0)
+mesh = SubResource("BoxMesh_diq37")
+surface_material_override/0 = SubResource("StandardMaterial3D_wu3s1")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1754656613]
+transform = Transform3D(-0.77324677, 0.15657629, 0.61447096, 0, 0.96903425, -0.2469243, -0.634106, -0.19093342, -0.74930274, 16.821579, 3.556738, -54.76171)
+environment = SubResource("Environment_21r7m")
+current = true
+
+[node name="Trees" type="Node3D" parent="." unique_id=1743835951]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -48.573963)
+
+[node name="Tree3D" type="Tree3D" parent="Trees" unique_id=1774727684]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.11859465, 0, 0.99294287, 0, 1, 0, -0.99294287, 0, -0.11859465, 16.478, 0.349041, -1.64543)
+
+[node name="Tree3D2" type="Tree3D" parent="Trees" unique_id=959908619]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.8596117, 0, 0.5109481, 0, 1, 0, -0.5109481, 0, 0.8596117, -2.9650688, 0.349041, -30.5486)
+
+[node name="Tree3D3" type="Tree3D" parent="Trees" unique_id=1200179908]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.9563589, -0.10145633, 0.2740148, -0.087475, 0.99418503, 0.062802665, -0.27879322, 0.036092408, -0.9596727, -16.719774, -0.25813675, -11.844448)
+
+[node name="Tree3D4" type="Tree3D" parent="Trees" unique_id=1158622854]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.12734163, 0, 0.99185896, 0, 1, 0, -0.99185896, 0, -0.12734163, -42.390507, 0.349041, -2.9246645)
+
+[node name="Tree3D5" type="Tree3D" parent="Trees" unique_id=1635216950]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.055
+trunk_drop_amount = 0.068
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_twist = 2.48
+trunk_length = 20.304
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.9583227, 0, 0.2856883, 0, 1, 0, -0.2856883, 0, -0.9583227, -32.868896, 0.349041, -24.110556)
+
+[node name="Tree3D6" type="Tree3D" parent="Trees" unique_id=2011718834]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.8374423, 0, -0.54652596, 0, 1, 0, 0.54652596, 0, -0.8374423, 23.453222, 0.349041, -48.403534)
+
+[node name="Tree3D7" type="Tree3D" parent="Trees" unique_id=929000417]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.83909816, 0, 0.5439803, 0, 1, 0, -0.5439803, 0, -0.83909816, 6.166088, 0.349041, -18.16149)
+
+[node name="Tree3D8" type="Tree3D" parent="Trees" unique_id=299616704]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.1687991, 0, -0.98565054, 0, 1, 0, 0.98565054, 0, 0.1687991, 28.484478, 0.349041, -15.227314)
+
+[node name="Tree3D9" type="Tree3D" parent="Trees" unique_id=840637312]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.82817674, 0.0755862, -0.5553468, 0.089735635, 0.99596417, 0.0017361852, 0.55323666, -0.04839652, -0.831617, 48.4061, -0.98332214, 13.039688)
+
+[node name="Tree3D81" type="Tree3D" parent="Trees" unique_id=1824524183]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_vmuxp")
+collision_enabled = true
+wind_influence_start = 1.0
+wind_twig_influence_start = 0.11
+wind_blur = 1.0
+wind_branch_wind_strength = 0.2
+wind_branch_wind_start = 1.0
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.4615938, 0.8870914, -4.1178634e-08, 6.0003345e-09, -4.329759e-08, -0.99999994, -0.8870914, -0.4615938, 1.4663055e-08, -20.092033, 1.2888978, 44.591908)
+
+[node name="Tree3D10" type="Tree3D" parent="Trees" unique_id=891786816]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.055
+trunk_drop_amount = 0.068
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_twist = 2.48
+trunk_length = 35.169
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.36377156, 0, -0.9314883, 0, 1, 0, 0.9314883, 0, 0.36377156, 25.194754, 0.349041, 5.7883987)
+
+[node name="Tree3D11" type="Tree3D" parent="Trees" unique_id=1078961371]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.93939495, 0.05695416, 0.33807334, 0.053589437, 0.9983768, -0.019285988, -0.338623, 0, -0.94092226, 24.25414, -0.071792126, -3.5291634)
+
+[node name="Tree3D12" type="Tree3D" parent="Trees" unique_id=32284082]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.071897805, 0, 0.99741215, 0.072597265, 0.9973476, 0.0052331267, -0.9947666, 0.07278562, -0.0717071, -10.295873, 0.349041, 0.91186905)
+
+[node name="Tree3D13" type="Tree3D" parent="Trees" unique_id=1399583712]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.68459797, 0, -0.7289209, 0, 1, 0, 0.7289209, 0, -0.68459797, 0.8189945, 0.349041, 20.486845)
+
+[node name="Tree3D14" type="Tree3D" parent="Trees" unique_id=1318210114]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.9276541, 0.17420907, 0.3303167, 0.18456888, 0.98281956, 3.7252903e-09, -0.3246417, 0.060966194, -0.94387007, -3.2522373, 0.349041, 48.533653)
+
+[node name="Tree3D15" type="Tree3D" parent="Trees" unique_id=454679519]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.055
+trunk_drop_amount = 0.068
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_twist = 2.48
+trunk_length = 20.304
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.6897159, 0.0025460015, -0.7240755, 0.09163384, 0.9922608, -0.083796546, 0.7182585, -0.12414564, -0.6846115, -17.931046, 0.349041, 30.532661)
+
+[node name="Tree3D16" type="Tree3D" parent="Trees" unique_id=1604372673]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.11363673, 0, -0.99352247, 0, 1, 0, 0.99352247, 0, 0.11363673, -14.429699, 0.349041, -30.705158)
+
+[node name="Tree3D17" type="Tree3D" parent="Trees" unique_id=855035797]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.94664586, 0.09268341, -0.30866188, 0.088117644, 0.99569577, 0.0287315, 0.3099962, 0, -0.9507381, 4.8688564, 0.06567049, -1.7052956)
+
+[node name="Tree3D18" type="Tree3D" parent="Trees" unique_id=1847281967]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.9568846, 0, -0.29046836, 0, 1, 0, 0.29046836, 0, 0.9568846, 17.487026, 0.349041, -20.346691)
+
+[node name="Tree3D19" type="Tree3D" parent="Trees" unique_id=1216610832]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.12238899, 0, -0.9924821, 0, 1, 0, 0.9924821, 0, 0.12238899, 51.682533, 0.349041, -25.5005)
+
+[node name="Tree3D20" type="Tree3D" parent="Trees" unique_id=259797338]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.055
+trunk_drop_amount = 0.068
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_twist = 2.48
+trunk_length = 20.304
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.9568846, 0, -0.29046836, 0, 1, 0, 0.29046836, 0, 0.9568846, 34.804447, 0.349041, -7.993986)
+
+[node name="Tree3D21" type="Tree3D" parent="Trees" unique_id=917884021]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.11859465, 0, 0.99294287, 0, 1, 0, -0.99294287, 0, -0.11859465, 63.02652, 0.349041, 58.981968)
+
+[node name="Tree3D22" type="Tree3D" parent="Trees" unique_id=616682263]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.8596117, 0, 0.5109481, 0, 1, 0, -0.5109481, 0, 0.8596117, 43.58345, 0.349041, 30.0788)
+
+[node name="Tree3D23" type="Tree3D" parent="Trees" unique_id=568302391]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.9583227, 0, 0.2856883, 0, 1, 0, -0.2856883, 0, -0.9583227, 31.05849, 0.349041, 48.78295)
+
+[node name="Tree3D24" type="Tree3D" parent="Trees" unique_id=16126127]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.12734163, 0, 0.99185896, 0, 1, 0, -0.99185896, 0, -0.12734163, 4.1580124, 0.349041, 57.702736)
+
+[node name="Tree3D25" type="Tree3D" parent="Trees" unique_id=724992498]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.055
+trunk_drop_amount = 0.068
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_twist = 2.48
+trunk_length = 20.304
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.95279574, 0.1033342, 0.28548622, 0.118874416, 0.9921969, 0.03760298, -0.27937293, 0.069764964, -0.9576449, 13.679623, 0.349041, 36.516846)
+
+[node name="Tree3D26" type="Tree3D" parent="Trees" unique_id=1761280402]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.8374423, 0, -0.54652596, 0, 1, 0, 0.54652596, 0, -0.8374423, 70.00174, 0.349041, 12.2238655)
+
+[node name="Tree3D27" type="Tree3D" parent="Trees" unique_id=59711519]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.83909816, 0, 0.5439803, 0, 1, 0, -0.5439803, 0, -0.83909816, 52.714607, 0.349041, 42.46591)
+
+[node name="Tree3D28" type="Tree3D" parent="Trees" unique_id=61203865]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.1687991, 0, -0.98565054, 0, 1, 0, 0.98565054, 0, 0.1687991, 75.033, 0.349041, 45.400085)
+
+[node name="Tree3D29" type="Tree3D" parent="Trees" unique_id=1071898047]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.83259267, 0, -0.5538857, 0, 1, 0, 0.5538857, 0, -0.83259267, 94.95462, 0.349041, 73.66708)
+
+[node name="Tree3D30" type="Tree3D" parent="Trees" unique_id=426681364]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.055
+trunk_drop_amount = 0.068
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_twist = 2.48
+trunk_length = 35.169
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.36377156, 0, -0.9314883, 0, 1, 0, 0.9314883, 0, 0.36377156, 71.74327, 0.349041, 66.4158)
+
+[node name="Tree3D31" type="Tree3D" parent="Trees" unique_id=210078354]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.94092226, 0, 0.338623, 0, 1, 0, -0.338623, 0, -0.94092226, 70.80266, 0.349041, 57.098236)
+
+[node name="Tree3D32" type="Tree3D" parent="Trees" unique_id=1490245035]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.071897805, 0, 0.99741215, 0, 1, 0, -0.99741215, 0, -0.071897805, 36.252647, 0.349041, 61.53927)
+
+[node name="Tree3D33" type="Tree3D" parent="Trees" unique_id=183622843]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.6836472, -0.052684538, -0.72790855, 0.0036589764, 0.99713105, -0.0756068, 0.7298035, -0.054351777, -0.68149304, 47.367516, -0.14339352, 81.11424)
+
+[node name="Tree3D34" type="Tree3D" parent="Trees" unique_id=1423549245]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.9438701, 0, 0.3303167, 0, 1, 0, -0.3303167, 0, -0.9438701, 43.29628, 0.349041, 109.16106)
+
+[node name="Tree3D35" type="Tree3D" parent="Trees" unique_id=1348035120]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.055
+trunk_drop_amount = 0.068
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_twist = 2.48
+trunk_length = 20.304
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.68459797, 0, -0.7289209, 0, 1, 0, 0.7289209, 0, -0.68459797, 28.617474, 0.349041, 91.160065)
+
+[node name="Tree3D36" type="Tree3D" parent="Trees" unique_id=81200257]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.11363673, 0, -0.99352247, 0, 1, 0, 0.99352247, 0, 0.11363673, 32.11882, 0.349041, 29.922241)
+
+[node name="Tree3D37" type="Tree3D" parent="Trees" unique_id=553153835]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.8621516, 0, -0.5066509, 0, 1, 0, 0.5066509, 0, -0.8621516, 51.417374, 0.349041, 58.922104)
+
+[node name="Tree3D38" type="Tree3D" parent="Trees" unique_id=1930548637]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.9568846, 0, -0.29046836, 0, 1, 0, 0.29046836, 0, 0.9568846, 64.035545, 0.349041, 40.28071)
+
+[node name="Tree3D39" type="Tree3D" parent="Trees" unique_id=1244327314]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.12238899, 0, -0.9924821, 0, 1, 0, 0.9924821, 0, 0.12238899, 98.23105, 0.349041, 35.1269)
+
+[node name="Tree3D40" type="Tree3D" parent="Trees" unique_id=1243336790]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.055
+trunk_drop_amount = 0.068
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_twist = 2.48
+trunk_length = 20.304
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.9568846, 0, -0.29046836, 0, 1, 0, 0.29046836, 0, 0.9568846, 81.35297, 0.349041, 52.633415)
+
+[node name="Tree3D41" type="Tree3D" parent="Trees" unique_id=70276417]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.12053534, 0, -0.99270916, 0, 1, 0, 0.99270916, 0, 0.12053534, -29.568848, 0.349041, 115.316956)
+
+[node name="Tree3D42" type="Tree3D" parent="Trees" unique_id=742736754]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.8586113, 0, -0.5126275, 0, 1, 0, 0.5126275, 0, -0.8586113, -10.0693245, 0.349041, 144.18207)
+
+[node name="Tree3D43" type="Tree3D" parent="Trees" unique_id=1730058531]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.95887923, 0, -0.28381452, 0, 1, 0, 0.28381452, 0, 0.95887923, 2.419056, 0.349041, 125.45346)
+
+[node name="Tree3D44" type="Tree3D" parent="Trees" unique_id=703862867]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.12928016, 0, -0.9916081, 0, 1, 0, 0.9916081, 0, 0.12928016, 29.302048, 0.349041, 116.48111)
+
+[node name="Tree3D45" type="Tree3D" parent="Trees" unique_id=1929045167]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.055
+trunk_drop_amount = 0.068
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_twist = 2.48
+trunk_length = 20.304
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.95887923, 0, -0.28381452, 0, 1, 0, 0.28381452, 0, 0.95887923, 19.821865, 0.349041, 137.68558)
+
+[node name="Tree3D46" type="Tree3D" parent="Trees" unique_id=177503263]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.8363724, 0, 0.5481619, 0, 1, 0, -0.5481619, 0, 0.8363724, -36.45266, 0.349041, 162.08861)
+
+[node name="Tree3D47" type="Tree3D" parent="Trees" unique_id=1023727732]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.84016, 0, -0.54233915, 0, 1, 0, 0.54233915, 0, 0.84016, -19.22467, 0.349041, 131.81282)
+
+[node name="Tree3D48" type="Tree3D" parent="Trees" unique_id=1826299929]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.17072542, 0, 0.98531866, 0, 1, 0, -0.98531866, 0, -0.17072542, -41.548756, 0.349041, 128.92229)
+
+[node name="Tree3D49" type="Tree3D" parent="Trees" unique_id=2063851704]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.8315084, 0, 0.5555121, 0, 1, 0, -0.5555121, 0, 0.8315084, -61.525593, 0.349041, 100.694275)
+
+[node name="Tree3D50" type="Tree3D" parent="Trees" unique_id=982218387]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.055
+trunk_drop_amount = 0.068
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_twist = 2.48
+trunk_length = 35.169
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.36559162, 0, 0.9307754, 0, 1, 0, -0.9307754, 0, -0.36559162, -38.300117, 0.349041, 107.90018)
+
+[node name="Tree3D51" type="Tree3D" parent="Trees" unique_id=1494860673]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.9415824, 0, -0.3367831, 0, 1, 0, 0.3367831, 0, 0.9415824, -37.341293, 0.349041, 117.21589)
+
+[node name="Tree3D52" type="Tree3D" parent="Trees" unique_id=428444101]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.073847316, 0, -0.9972697, 0, 1, 0, 0.9972697, 0, 0.073847316, -2.8000183, 0.349041, 112.70732)
+
+[node name="Tree3D53" type="Tree3D" parent="Trees" unique_id=497895082]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.6831718, 0, 0.7302577, 0, 1, 0, -0.7302577, 0, 0.6831718, -13.953133, 0.349041, 93.15411)
+
+[node name="Tree3D54" type="Tree3D" parent="Trees" unique_id=945974930]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.94451416, 0, -0.3284711, 0, 1, 0, 0.3284711, 0, 0.94451416, -9.936737, 0.349041, 65.099396)
+
+[node name="Tree3D55" type="Tree3D" parent="Trees" unique_id=707535134]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.055
+trunk_drop_amount = 0.068
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_twist = 2.48
+trunk_length = 20.304
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.6831718, 0, 0.7302577, 0, 1, 0, -0.7302577, 0, 0.6831718, 4.777233, 0.349041, 83.07166)
+
+[node name="Tree3D56" type="Tree3D" parent="Trees" unique_id=1592044915]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.11557856, 0, 0.99329835, 0, 1, 0, -0.99329835, 0, -0.11557856, 1.3955956, 0.349041, 144.31621)
+
+[node name="Tree3D57" type="Tree3D" parent="Trees" unique_id=749422283]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.8611596, 0, 0.50833523, 0, 1, 0, -0.50833523, 0, 0.8611596, -17.959612, 0.349041, 115.354126)
+
+[node name="Tree3D58" type="Tree3D" parent="Trees" unique_id=7636556]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.9574505, 0, 0.28859738, 0, 1, 0, -0.28859738, 0, -0.9574505, -30.541317, 0.349041, 134.02016)
+
+[node name="Tree3D59" type="Tree3D" parent="Trees" unique_id=226484952]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.124328785, 0, 0.9922411, 0, 1, 0, -0.9922411, 0, -0.124328785, -64.726685, 0.349041, 139.2408)
+
+[node name="Tree3D60" type="Tree3D" parent="Trees" unique_id=497759928]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.055
+trunk_drop_amount = 0.068
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_twist = 2.48
+trunk_length = 20.304
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.9574505, 0, 0.28859738, 0, 1, 0, -0.28859738, 0, -0.9574505, -47.88285, 0.349041, 121.701324)
+
+[node name="Tree3D61" type="Tree3D" parent="Trees" unique_id=2030195309]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.12053534, 0, -0.99270916, 0, 1, 0, 0.99270916, 0, 0.12053534, -76.23579, 0.349041, 54.780655)
+
+[node name="Tree3D62" type="Tree3D" parent="Trees" unique_id=1745723241]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.8586113, 0, -0.5126275, 0, 1, 0, 0.5126275, 0, -0.8586113, -56.73626, 0.349041, 83.64577)
+
+[node name="Tree3D63" type="Tree3D" parent="Trees" unique_id=318609892]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.95887923, 0, -0.28381452, 0, 1, 0, 0.28381452, 0, 0.95887923, -44.247883, 0.349041, 64.917175)
+
+[node name="Tree3D64" type="Tree3D" parent="Trees" unique_id=1163816549]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.12928016, 0, -0.9916081, 0, 1, 0, 0.9916081, 0, 0.12928016, -17.364891, 0.349041, 55.94482)
+
+[node name="Tree3D65" type="Tree3D" parent="Trees" unique_id=280067320]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.055
+trunk_drop_amount = 0.068
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_twist = 2.48
+trunk_length = 20.304
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.95887923, 0, -0.28381452, 0, 1, 0, 0.28381452, 0, 0.95887923, -26.845072, 0.349041, 77.149284)
+
+[node name="Tree3D66" type="Tree3D" parent="Trees" unique_id=970562162]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.8363724, 0, 0.5481619, 0, 1, 0, -0.5481619, 0, 0.8363724, -83.11959, 0.349041, 101.55231)
+
+[node name="Tree3D67" type="Tree3D" parent="Trees" unique_id=124660956]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.84016, 0, -0.54233915, 0, 1, 0, 0.54233915, 0, 0.84016, -65.89161, 0.349041, 71.27653)
+
+[node name="Tree3D68" type="Tree3D" parent="Trees" unique_id=661375428]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.17072542, 0, 0.98531866, 0, 1, 0, -0.98531866, 0, -0.17072542, -88.21569, 0.349041, 68.38599)
+
+[node name="Tree3D69" type="Tree3D" parent="Trees" unique_id=673191553]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.8315084, 0, 0.5555121, 0, 1, 0, -0.5555121, 0, 0.8315084, -108.192535, 0.349041, 40.157978)
+
+[node name="Tree3D70" type="Tree3D" parent="Trees" unique_id=458771256]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.055
+trunk_drop_amount = 0.068
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_twist = 2.48
+trunk_length = 35.169
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.36559162, 0, 0.9307754, 0, 1, 0, -0.9307754, 0, -0.36559162, -84.96705, 0.349041, 47.363873)
+
+[node name="Tree3D71" type="Tree3D" parent="Trees" unique_id=659053991]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.9415824, 0, -0.3367831, 0, 1, 0, 0.3367831, 0, 0.9415824, -84.00823, 0.349041, 56.67958)
+
+[node name="Tree3D72" type="Tree3D" parent="Trees" unique_id=1982738926]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.073847316, 0, -0.9972697, 0, 1, 0, 0.9972697, 0, 0.073847316, -49.466965, 0.349041, 52.171032)
+
+[node name="Tree3D73" type="Tree3D" parent="Trees" unique_id=58296971]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.6831718, 0, 0.7302577, 0, 1, 0, -0.7302577, 0, 0.6831718, -60.620075, 0.349041, 32.617825)
+
+[node name="Tree3D74" type="Tree3D" parent="Trees" unique_id=1692283720]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.94451416, 0, -0.3284711, 0, 1, 0, 0.3284711, 0, 0.94451416, -56.60367, 0.349041, 4.5631104)
+
+[node name="Tree3D75" type="Tree3D" parent="Trees" unique_id=935976110]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.055
+trunk_drop_amount = 0.068
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_twist = 2.48
+trunk_length = 20.304
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.6831718, 0, 0.7302577, 0, 1, 0, -0.7302577, 0, 0.6831718, -41.889706, 0.349041, 22.535362)
+
+[node name="Tree3D76" type="Tree3D" parent="Trees" unique_id=228412374]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.11557856, 0, 0.99329835, 0, 1, 0, -0.99329835, 0, -0.11557856, -45.271343, 0.349041, 83.779915)
+
+[node name="Tree3D77" type="Tree3D" parent="Trees" unique_id=2054781236]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(0.8611596, 0, 0.50833523, 0, 1, 0, -0.50833523, 0, 0.8611596, -64.62655, 0.349041, 54.81784)
+
+[node name="Tree3D78" type="Tree3D" parent="Trees" unique_id=193690324]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 11.52
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.9574505, 0, 0.28859738, 0, 1, 0, -0.28859738, 0, -0.9574505, -77.20826, 0.349041, 73.48386)
+
+[node name="Tree3D79" type="Tree3D" parent="Trees" unique_id=1151659093]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.19
+trunk_drop_amount = 0.0
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_length = 17.601
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.124328785, 0, 0.9922411, 0, 1, 0, -0.9922411, 0, -0.124328785, -111.393616, 0.349041, 78.7045)
+
+[node name="Tree3D80" type="Tree3D" parent="Trees" unique_id=1870971531]
+seed = 264
+trunk_branches_count = 4
+trunk_height = 12
+trunk_branch_length = 2.055
+trunk_drop_amount = 0.068
+trunk_grow_amount = -0.38
+trunk_max_radius = 0.6
+trunk_radius_falloff_rate = 0.57
+trunk_climb_rate = 2.02
+trunk_kink = 0.0
+trunk_twist = 2.48
+trunk_length = 20.304
+twig_scale = 2.0
+material_trunk = SubResource("ShaderMaterial_chj2x")
+material_twig = SubResource("ShaderMaterial_uas6x")
+collision_enabled = true
+wind_influence_start = 0.19
+wind_blur = 0.6
+wind_branch_wind_strength = 1.03
+wind_branch_wind_start = 0.39
+wind_branch_wind_blur = 0.0
+transform = Transform3D(-0.9574505, 0, 0.28859738, 0, 1, 0, -0.28859738, 0, -0.9574505, -94.54979, 0.349041, 61.165024)

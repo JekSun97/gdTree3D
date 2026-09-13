@@ -4,8 +4,8 @@
 [ext_resource type="Material" uid="uid://67ujeeqcjmgj" path="res://trunk_mat.tres" id="3_vb27k"]
 [ext_resource type="Texture2D" uid="uid://b6rpod6ne868j" path="res://Branches1.png" id="5_siv04"]
 [ext_resource type="Texture2D" uid="uid://dvv86x1lj0rdj" path="res://Branches2.png" id="6_6tr7v"]
-[ext_resource type="Shader" uid="uid://c7vrpwaspknbt" path="res://addons/Tree3D/Materials/Tree3DUniversalMaterial.gdshader" id="6_e2bpf"]
 [ext_resource type="Texture2D" uid="uid://c1w2l4pyoy433" path="res://Branches3.png" id="7_76wn7"]
+[ext_resource type="Shader" uid="uid://dr3bl2fs73sco" path="res://addons/Tree3D/Materials/Tree3DUniversalMaterialMedium.gdshader" id="7_inj8k"]
 [ext_resource type="Texture2D" uid="uid://cj1bch3bd4y66" path="res://bark.jpg" id="7_xkb33"]
 [ext_resource type="Texture2D" uid="uid://6avsei2gxmae" path="res://bark_normal.png" id="8_ilkb4"]
 [ext_resource type="Texture2D" uid="uid://b5lgdg51eybjh" path="res://twig.png" id="10_xkb33"]
@@ -29,135 +29,125 @@ uv1_scale = Vector3(24, 24, 24)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_q3p5c"]
 render_priority = 0
-shader = ExtResource("6_e2bpf")
+shader = ExtResource("7_inj8k")
 shader_parameter/texture_albedo = ExtResource("7_xkb33")
 shader_parameter/normal_strength = 0.0
 shader_parameter/metallic = 0.0
 shader_parameter/roughness = 0.9
 shader_parameter/tint_color = Color(1, 1, 1, 1)
 shader_parameter/tint_strength = 1.0
-shader_parameter/sway_speed = 1.0000000475
-shader_parameter/sway_strength = 0.1690000080275
 shader_parameter/sway_phase_len = 2.0
-shader_parameter/wind_direction = Vector3(1, 0, 0.5)
 shader_parameter/flutter_strength = 0.0
 shader_parameter/debug_vertex_colors = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lyk1u"]
 render_priority = 0
-shader = ExtResource("6_e2bpf")
+shader = ExtResource("7_inj8k")
 shader_parameter/texture_albedo = ExtResource("10_xkb33")
 shader_parameter/normal_strength = 0.0
 shader_parameter/metallic = 0.134000006365
 shader_parameter/roughness = 1.0
 shader_parameter/tint_color = Color(1, 1, 1, 1)
 shader_parameter/tint_strength = 1.0
-shader_parameter/sway_speed = 1.0000000475
-shader_parameter/sway_strength = 0.1690000080275
 shader_parameter/sway_phase_len = 2.0
-shader_parameter/wind_direction = Vector3(1, 0, 0.5)
 shader_parameter/flutter_strength = 0.0400000019
 shader_parameter/debug_vertex_colors = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7tfm1"]
 render_priority = 0
-shader = ExtResource("6_e2bpf")
+shader = ExtResource("7_inj8k")
 shader_parameter/texture_albedo = ExtResource("7_xkb33")
 shader_parameter/normal_strength = 1.0
 shader_parameter/metallic = 0.0
 shader_parameter/roughness = 0.9
 shader_parameter/tint_color = Color(1, 1, 1, 1)
 shader_parameter/tint_strength = 1.0
-shader_parameter/sway_speed = 0.800000038
-shader_parameter/sway_strength = 0.0790000037525
 shader_parameter/sway_phase_len = 7.5910003605725
-shader_parameter/wind_direction = Vector3(1, 0, 0.5)
-shader_parameter/flutter_strength = 0.0
+shader_parameter/flutter_strength = 0.02000000095
 shader_parameter/debug_vertex_colors = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pb46e"]
 render_priority = 0
-shader = ExtResource("6_e2bpf")
+shader = ExtResource("7_inj8k")
 shader_parameter/texture_albedo = ExtResource("5_siv04")
 shader_parameter/normal_strength = 1.0
 shader_parameter/metallic = 0.0
 shader_parameter/roughness = 0.9
 shader_parameter/tint_color = Color(1, 1, 1, 1)
 shader_parameter/tint_strength = 1.0
-shader_parameter/sway_speed = 0.800000038
-shader_parameter/sway_strength = 0.0790000037525
 shader_parameter/sway_phase_len = 7.5910003605725
-shader_parameter/wind_direction = Vector3(1, 0, 0.5)
 shader_parameter/flutter_strength = 0.094000004465
 shader_parameter/debug_vertex_colors = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_oit25"]
 render_priority = 0
-shader = ExtResource("6_e2bpf")
+shader = ExtResource("7_inj8k")
 shader_parameter/texture_albedo = ExtResource("10_xkb33")
 shader_parameter/normal_strength = 0.0
 shader_parameter/metallic = 0.0
 shader_parameter/roughness = 1.0
 shader_parameter/tint_color = Color(1, 1, 1, 1)
 shader_parameter/tint_strength = 1.0
-shader_parameter/sway_speed = 1.0000000475
-shader_parameter/sway_strength = 0.0630000029925
 shader_parameter/sway_phase_len = 2.394000113715
-shader_parameter/wind_direction = Vector3(1, 0, 0.5)
 shader_parameter/flutter_strength = 0.0090000004275
 shader_parameter/debug_vertex_colors = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xkb33"]
 render_priority = 0
-shader = ExtResource("6_e2bpf")
+shader = ExtResource("7_inj8k")
 shader_parameter/texture_albedo = ExtResource("7_xkb33")
 shader_parameter/normal_strength = 1.0
 shader_parameter/metallic = 0.0
 shader_parameter/roughness = 0.9
 shader_parameter/tint_color = Color(1, 1, 1, 1)
 shader_parameter/tint_strength = 0.0
-shader_parameter/sway_speed = 1.7450000828875
-shader_parameter/sway_strength = 0.25200001197
 shader_parameter/sway_phase_len = 2.6770001271575
-shader_parameter/wind_direction = Vector3(1, 0, 0.5)
 shader_parameter/flutter_strength = 0.07200000342
 shader_parameter/debug_vertex_colors = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hbhtp"]
 render_priority = 0
-shader = ExtResource("6_e2bpf")
+shader = ExtResource("7_inj8k")
 shader_parameter/texture_albedo = ExtResource("5_siv04")
 shader_parameter/normal_strength = 0.0
 shader_parameter/metallic = 0.0
 shader_parameter/roughness = 1.0
 shader_parameter/tint_color = Color(1, 1, 1, 1)
 shader_parameter/tint_strength = 0.0
-shader_parameter/sway_speed = 1.7450000828875
-shader_parameter/sway_strength = 0.25200001197
 shader_parameter/sway_phase_len = 2.6770001271575
-shader_parameter/wind_direction = Vector3(1, 0, 0.5)
 shader_parameter/flutter_strength = 0.07200000342
+shader_parameter/debug_vertex_colors = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m4vml"]
+render_priority = 0
+shader = ExtResource("7_inj8k")
+shader_parameter/texture_albedo = ExtResource("7_xkb33")
+shader_parameter/texture_normal = ExtResource("8_ilkb4")
+shader_parameter/normal_strength = 1.0
+shader_parameter/metallic = 0.0
+shader_parameter/roughness = 0.9
+shader_parameter/tint_color = Color(1, 1, 1, 1)
+shader_parameter/tint_strength = 1.0
+shader_parameter/sway_phase_len = 0.0
+shader_parameter/flutter_strength = 0.030000001425
 shader_parameter/debug_vertex_colors = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_e2bpf"]
 render_priority = 0
-shader = ExtResource("6_e2bpf")
+shader = ExtResource("7_inj8k")
 shader_parameter/texture_albedo = ExtResource("6_6tr7v")
 shader_parameter/normal_strength = 1.0
 shader_parameter/metallic = 0.0
 shader_parameter/roughness = 0.9
 shader_parameter/tint_color = Color(1, 1, 1, 1)
 shader_parameter/tint_strength = 1.0
-shader_parameter/sway_speed = 1.0000000475
-shader_parameter/sway_strength = 0.138000006555
 shader_parameter/sway_phase_len = 0.0
-shader_parameter/wind_direction = Vector3(1, 0, 0.5)
 shader_parameter/flutter_strength = 0.08
 shader_parameter/debug_vertex_colors = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_chj2x"]
 render_priority = 0
-shader = ExtResource("6_e2bpf")
+shader = ExtResource("7_inj8k")
 shader_parameter/texture_albedo = ExtResource("7_xkb33")
 shader_parameter/texture_normal = ExtResource("8_ilkb4")
 shader_parameter/normal_strength = 1.0
@@ -165,32 +155,26 @@ shader_parameter/metallic = 0.0
 shader_parameter/roughness = 0.9
 shader_parameter/tint_color = Color(1, 1, 1, 1)
 shader_parameter/tint_strength = 1.0
-shader_parameter/sway_speed = 1.0000000475
-shader_parameter/sway_strength = 0.362000017195
 shader_parameter/sway_phase_len = 0.0
-shader_parameter/wind_direction = Vector3(1, 0, 0.5)
 shader_parameter/flutter_strength = 0.0
 shader_parameter/debug_vertex_colors = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_uas6x"]
 render_priority = 0
-shader = ExtResource("6_e2bpf")
+shader = ExtResource("7_inj8k")
 shader_parameter/texture_albedo = ExtResource("7_76wn7")
 shader_parameter/normal_strength = 1.0
 shader_parameter/metallic = 0.0
 shader_parameter/roughness = 0.9
 shader_parameter/tint_color = Color(1, 1, 1, 1)
 shader_parameter/tint_strength = 1.0
-shader_parameter/sway_speed = 1.0000000475
-shader_parameter/sway_strength = 0.362000017195
 shader_parameter/sway_phase_len = 0.0
-shader_parameter/wind_direction = Vector3(1, 0, 0.5)
 shader_parameter/flutter_strength = 0.0800000038
 shader_parameter/debug_vertex_colors = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ilkb4"]
 render_priority = 0
-shader = ExtResource("6_e2bpf")
+shader = ExtResource("7_inj8k")
 shader_parameter/texture_albedo = ExtResource("7_xkb33")
 shader_parameter/texture_normal = ExtResource("8_ilkb4")
 shader_parameter/normal_strength = 1.0
@@ -198,26 +182,20 @@ shader_parameter/metallic = 0.0
 shader_parameter/roughness = 0.9
 shader_parameter/tint_color = Color(1, 1, 1, 1)
 shader_parameter/tint_strength = 1.0
-shader_parameter/sway_speed = 0.50000002375
-shader_parameter/sway_strength = 0.202000009595
 shader_parameter/sway_phase_len = 2.0
-shader_parameter/wind_direction = Vector3(1, 0, 0.5)
 shader_parameter/flutter_strength = 0.08
 shader_parameter/debug_vertex_colors = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kdkjk"]
 render_priority = 0
-shader = ExtResource("6_e2bpf")
+shader = ExtResource("7_inj8k")
 shader_parameter/texture_albedo = ExtResource("5_siv04")
 shader_parameter/normal_strength = 1.0
 shader_parameter/metallic = 0.0
 shader_parameter/roughness = 0.9
 shader_parameter/tint_color = Color(1, 0, 0, 1)
 shader_parameter/tint_strength = 0.8430000400425
-shader_parameter/sway_speed = 0.50000002375
-shader_parameter/sway_strength = 0.202000009595
 shader_parameter/sway_phase_len = 2.0
-shader_parameter/wind_direction = Vector3(1, 0, 0.5)
 shader_parameter/flutter_strength = 0.08
 shader_parameter/debug_vertex_colors = false
 
@@ -331,9 +309,8 @@ material_trunk = SubResource("ShaderMaterial_q3p5c")
 material_twig = SubResource("ShaderMaterial_lyk1u")
 wind_influence_start = 0.23
 wind_twig_influence_start = 0.0
-wind_blur = 0.21
+wind_blur = 0.48
 wind_branch_wind_strength = 0.0
-wind_branch_wind_blur = 0.15
 transform = Transform3D(-0.0480653, 0, 0.998844, 0, 1, 0, -0.998844, 0, -0.0480653, -24.1285, 0.398237, -2.06323)
 
 [node name="Tree3D2" type="Tree3D" parent="." unique_id=1019776702]
@@ -350,11 +327,12 @@ trunk_length = 1.79
 twig_scale = 0.4
 material_trunk = SubResource("ShaderMaterial_7tfm1")
 material_twig = SubResource("ShaderMaterial_pb46e")
-wind_influence_start = 0.16
-wind_twig_influence_start = 0.49
-wind_blur = 0.4
-wind_branch_wind_strength = 2.07
-wind_branch_wind_start = 1.0
+wind_influence_start = 1.0
+wind_twig_influence_start = 0.37
+wind_blur = 0.0
+wind_branch_wind_strength = 0.81
+wind_branch_wind_start = 0.08
+wind_branch_wind_blur = 0.41
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.4059, 0, -1.6484)
 
 [node name="Tree3D3" type="Tree3D" parent="." unique_id=703131084]
@@ -409,8 +387,10 @@ trunk_kink = 0.01
 trunk_twist = -2.47
 trunk_length = 3.61
 twig_scale = 1.0
-material_trunk = ExtResource("3_vb27k")
+material_trunk = SubResource("ShaderMaterial_m4vml")
 material_twig = SubResource("ShaderMaterial_e2bpf")
+wind_blur = 0.42
+wind_branch_wind_blur = 0.88
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.78249, 0.283189, -1.85144)
 
 [node name="Tree3D6" type="Tree3D" parent="." unique_id=1774727684]
