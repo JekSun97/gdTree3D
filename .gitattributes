@@ -1,13 +1,15 @@
 * text=auto eol=lf
 
+/src export-ignore
+/src/** export-ignore
+/.github export-ignore
+/.github/** export-ignore
+/demo export-ignore
+/demo/** export-ignore
+/godot-cpp export-ignore
+/godot-cpp/** export-ignore
 
-/src/** !export-ignore
-/.github/** !export-ignore
-/demo/** !export-ignore
-/addons/** !export-ignore
-
-SConstruct !export-ignore
-Dockerfile !export-ignore
-README.md !export-ignore
-.gitignore !export-ignore
-.gitattributes !export-ignore
+SConstruct export-ignore
+Dockerfile export-ignore
+.gitignore export-ignore
+.gitattributes export-ignore
